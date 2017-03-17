@@ -48,7 +48,7 @@ def delete(instance):
     Returns:
 
     """
-    Instance.delete(instance)
+    instance.delete()
 
 
 def upsert(instance):
@@ -60,7 +60,7 @@ def upsert(instance):
     Returns:
 
     """
-    Instance.save(instance)
+    return instance.save_object()
 
 
 def request_token(instance, client_id, client_secret, timeout=1000):

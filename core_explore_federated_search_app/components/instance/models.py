@@ -62,33 +62,19 @@ class Instance(Document):
         except Exception as ex:
             raise exceptions.ModelError(ex.message)
 
-    @staticmethod
-    def save(instance):
+    def save_object(self):
         """ Custom save
 
         Returns:
 
         """
         try:
-            instance.check_instance_name()
-            return instance.save()
+            self.check_instance_name()
+            return self.save()
         except mongoengine_errors.NotUniqueError as e:
             raise exceptions.NotUniqueError(e.message)
         except Exception as ex:
             raise exceptions.ModelError(ex.message)
-
-    @staticmethod
-    def delete(instance):
-        """ Delete an instance
-
-        Args:
-            instance:
-
-        Returns:
-
-        """
-        if instance is not None:
-            instance.delete()
 
     def check_instance_name(self):
         """ test if the name is "Local"
