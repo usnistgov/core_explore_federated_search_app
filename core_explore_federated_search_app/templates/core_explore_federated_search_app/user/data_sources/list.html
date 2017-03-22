@@ -1,0 +1,30 @@
+{% extends "core_explore_common_app/user/selector/list_selector_base.html" %}
+{% load staticfiles %}
+
+{% block title%}Federated Search{% endblock %}
+
+{% block data_sources_list %}
+<div>
+    <div id="list-data-sources-federated-content">
+    </div>
+    <div id="error-div-federated" style="display: none;">
+        <br/>
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong><span id="error-message"></span></strong>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block raw_js %}
+<script type="application/javascript">
+    // can't be in raw file, initialisation here to be use in list.js
+    var getDataSourceFederatedUrl = "{% url 'core_explore_federated_search_app_get_data_sources' %}";
+    var updateQueryDataSourcesFederatedUrl = "{% url 'core_explore_federated_search_app_update_data_sources' %}";
+</script>
+{% endblock %}
+
+{% block app_js %}
+<script src="{% static 'core_explore_federated_search_app/user/js/data_sources/list.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,75 @@
+""" REST views for the data API
+"""
+from django.core.urlresolvers import reverse
+from core_explore_common_app.components.result.models import Result
+from core_explore_common_app.rest.result.serializers import ResultSerializer
+from core_main_app.components.template.api import get_all_by_hash
+from core_explore_common_app.utils.query.mongo.query_builder import QueryBuilder
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+import core_main_app.components.data.api as data_api
+import json
+
+
+@api_view(['POST'])
+def execute_query(request):
+    """ execute query and returns result
+
+    Args:
+        request:
+
+    Returns:
+
+    """
+    try:
+        # get query
+        query = request.POST.get('query', None)
+        options = request.POST.get('options', None)
+
+        if query is not None:
+            query_builder = QueryBuilder(query, 'dict_content')
+        else:
+            return Response('Query should be passed in parameters', status=status.HTTP_400_BAD_REQUEST)
+
+        # update the content query with given templates
+        if 'templates' in request.POST:
+            templates = json.loads(request.POST['templates'])
+            _update_query_builder(query_builder, templates)
+
+        # create a raw query
+        raw_query = query_builder.get_raw_query()
+
+        # execute query
+        data_list = data_api.execute_query(raw_query)
+
+        # Serialize object
+        results = []
+        url = reverse("core_explore_federated_search_app_data_detail")
+
+        instance_name = ''
+        json_options = json.loads(options)
+        if options is not None:
+            instance_name = json_options['instance_name']
+
+        for data in data_list:
+            results.append(Result(title=data.title,
+                                  xml_content=data.xml_file,
+                                  origin=data.template.filename,
+                                  detail_url="{0}?id={1}&instance_name={2}".format(url, data.id, instance_name)))
+
+        return_value = ResultSerializer(results, many=True)
+
+        return Response(return_value.data, status=status.HTTP_200_OK)
+    except Exception as api_exception:
+        content = {'message': api_exception.message}
+        return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+def _update_query_builder(query_builder, templates):
+    template_id_list = []
+    for template in templates:
+        template_id_list.extend(get_all_by_hash(template['hash']).values_list('id'))
+
+    if len(template_id_list) > 0:
+        query_builder.add_list_templates_criteria(template_id_list)

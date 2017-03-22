@@ -1,0 +1,24 @@
+<table cellpadding="10">
+    {% for item in instances %}
+        <tr>
+            <td>
+                <input  class="checkbox checkbox-federated"
+                        type="checkbox"
+                        value="{{ item.instance_id }}"
+                        {% if item.is_checked %}
+                            checked
+                        {% endif %}
+                />
+            </td>
+            <td>
+                {{ item.instance_name }}
+            </td>
+        </tr>
+    {% empty %}
+        <tr>
+            <td class="empty">
+                No federated instance is available.
+            </td>
+        </tr>
+    {% endfor %}
+</table>
