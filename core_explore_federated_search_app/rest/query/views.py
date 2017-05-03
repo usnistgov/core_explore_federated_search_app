@@ -8,6 +8,7 @@ from core_explore_common_app.utils.query.mongo.query_builder import QueryBuilder
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from core_explore_common_app.utils.result import result as result_utils
 import core_main_app.components.data.api as data_api
 import json
 
@@ -52,10 +53,18 @@ def execute_query(request):
         if options is not None:
             instance_name = json_options['instance_name']
 
+        # Template info
+        template_info = dict()
         for data in data_list:
+            # get data's template
+            template = data.template
+            # get and store data's template information
+            if template not in template_info:
+                template_info[template] = result_utils.get_template_info(template, include_template_id=False)
+
             results.append(Result(title=data.title,
                                   xml_content=data.xml_file,
-                                  origin=data.template.filename,
+                                  template_info=template_info[template],
                                   detail_url="{0}?id={1}&instance_name={2}".format(url, data.id, instance_name)))
 
         return_value = ResultSerializer(results, many=True)
