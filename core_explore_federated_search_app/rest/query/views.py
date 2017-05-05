@@ -63,7 +63,7 @@ def execute_query(request):
                 template_info[template] = result_utils.get_template_info(template, include_template_id=False)
 
             results.append(Result(title=data.title,
-                                  xml_content=data.xml_file,
+                                  xml_content=data.xml_content,
                                   template_info=template_info[template],
                                   detail_url="{0}?id={1}&instance_name={2}".format(url, data.id, instance_name)))
 
