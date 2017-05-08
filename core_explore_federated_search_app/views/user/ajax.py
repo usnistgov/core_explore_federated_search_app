@@ -117,4 +117,4 @@ def _get_url_with_federated_rest_extension(instance):
 
     """
     return urljoin(get_url(instance.protocol, instance.address, instance.port),
-                   reverse("core_federated_search_rest_execute_query"))
+                   reverse("core_explore_federated_search_app_rest_execute_query"))

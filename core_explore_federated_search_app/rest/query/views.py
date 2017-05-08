@@ -1,4 +1,4 @@
-""" REST views for the data API
+""" REST views for the query API
 """
 from django.core.urlresolvers import reverse
 from core_explore_common_app.components.result.models import Result
@@ -47,6 +47,7 @@ def execute_query(request):
         # Serialize object
         results = []
         url = reverse("core_explore_federated_search_app_data_detail")
+        url_access_data = reverse("core_explore_federated_search_app_rest_get_result_from_data_id")
 
         instance_name = ''
         json_options = json.loads(options)
@@ -65,7 +66,9 @@ def execute_query(request):
             results.append(Result(title=data.title,
                                   xml_content=data.xml_content,
                                   template_info=template_info[template],
-                                  detail_url="{0}?id={1}&instance_name={2}".format(url, data.id, instance_name)))
+                                  detail_url="{0}?id={1}&instance_name={2}".format(url, data.id, instance_name),
+                                  access_data_url="{0}?id={1}&instance_name={2}".format(url_access_data,
+                                                                                        data.id, instance_name)))
 
         return_value = ResultSerializer(results, many=True)
 
