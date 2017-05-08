@@ -40,8 +40,13 @@ def data_detail(request):
     # execute request
     response = send_get_request(url, instance.access_token)
 
+    record = json.loads(response.text)
+    template = record.template
+
+    data = {'title': record.title, 'xml_content': record.xml_content, 'template': {'hash': template.hash}}
+
     context = {
-        'data': json.loads(response.text)
+        'data': data
     }
 
     assets = {
