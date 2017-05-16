@@ -1,3 +1,4 @@
 core-main-app==1.0.0-alpha1
 core-explore-common-app==1.0.0-alpha1
 requests==2.3.0
+oauthlib==2.0.2
