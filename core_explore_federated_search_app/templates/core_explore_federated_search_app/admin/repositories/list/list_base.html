@@ -2,6 +2,14 @@
 
 {% block box_title %}List all repositories{% endblock %}
 
+{% block box_tools %}
+<div class="btn-group pull-right">
+<a href="{% url 'admin:core_explore_federated_search_app_repositories_add'%}" class="btn btn-default add-repository-btn">
+    <i class="fa fa-plus-circle"></i> Add Repository
+</a>
+</div>
+{% endblock %}
+
 {% block box_body %}
 
     <table class="table table-bordered table-striped table-hover">
@@ -35,7 +43,9 @@
         {% empty %}
             <tr>
                 <td class="empty" colspan="4">
-                    No other Curator instance registered. Click on 'Add Repository' to add a new one.
+                    There are currently no other repositories registered. Please
+                    <a href="{% url 'admin:core_explore_federated_search_app_repositories_add'%}"
+                       class="add-repository-btn">add a new one</a>.
                 </td>
             </tr>
         {% endfor %}
