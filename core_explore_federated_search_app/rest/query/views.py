@@ -83,5 +83,6 @@ def _update_query_builder(query_builder, templates):
     for template in templates:
         template_id_list.extend(get_all_by_hash(template['hash']).values_list('id'))
 
-    if len(template_id_list) > 0:
-        query_builder.add_list_templates_criteria(template_id_list)
+    # Even if the list is empty, we add it to the query
+    # empty list means there is no equal template with the hash given
+    query_builder.add_list_templates_criteria(template_id_list)

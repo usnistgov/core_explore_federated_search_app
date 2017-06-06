@@ -34,16 +34,18 @@ def data_detail(request):
 
     # FIXME: reverse args
     # Get detail view base url (to be completed with data id)
-    url = urljoin(url_remote, reverse("core_main_app_rest_data_get_by_id"))
+    url = urljoin(url_remote, reverse("core_main_app_rest_data_get_by_id_with_template_info"))
     url = "{0}?id={1}".format(url, str(data_id))
 
     # execute request
     response = send_get_request(url, instance.access_token)
 
     record = json.loads(response.text)
-    template = record.template
 
-    data = {'title': record.title, 'xml_content': record.xml_content, 'template': {'hash': template.hash}}
+    # data to context
+    data = {'title': record['title'],
+            'xml_content': record['xml_content'],
+            'template': {'hash': record['template']['hash']}}
 
     context = {
         'data': data
