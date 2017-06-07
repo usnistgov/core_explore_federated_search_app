@@ -70,7 +70,7 @@ class Instance(Document):
             self.check_instance_name()
             return self.save()
         except mongoengine_errors.NotUniqueError as e:
-            raise exceptions.NotUniqueError(e.message)
+            raise exceptions.NotUniqueError("Unable to create the new repository: Not Unique")
         except Exception as ex:
             raise exceptions.ModelError(ex.message)
 
