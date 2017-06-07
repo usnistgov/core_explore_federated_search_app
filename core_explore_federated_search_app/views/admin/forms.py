@@ -12,12 +12,8 @@ class RepositoryForm(forms.Form):
     """
     name = forms.CharField(label='Instance Name', max_length=100, required=True,
                            widget=forms.TextInput(attrs={'class': 'form-control'}))
-    protocol = forms.ChoiceField(label='Protocol', choices=PROTOCOLS, required=True,
-                                 widget=forms.Select(attrs={'class': 'form-control'}))
-    ip_address = forms.CharField(label='IP Address', required=True,
-                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
-    port = forms.IntegerField(label='Port', required=True, min_value=0, initial=8000,
-                              widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    endpoint = forms.CharField(label='Endpoint', required=True,
+                               widget=forms.TextInput(attrs={'class': 'form-control'}))
     username = forms.CharField(label='Username', max_length=100, required=True,
                                widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-control'}),

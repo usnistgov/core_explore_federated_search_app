@@ -3,7 +3,6 @@
 from core_main_app.utils.rendering import render
 from django.core.urlresolvers import reverse
 from core_explore_common_app.utils.protocols.oauth2 import send_get_request
-from core_explore_common_app.utils.protocols.commons import get_url
 from urlparse import urljoin
 import core_explore_federated_search_app.components.instance.api as instance_api
 import json
@@ -29,12 +28,9 @@ def data_detail(request):
         # TODO: catch good exception, redirect to error page
         pass
 
-    # get remote url
-    url_remote = get_url(instance.protocol, instance.address, str(instance.port))
-
     # FIXME: reverse args
     # Get detail view base url (to be completed with data id)
-    url = urljoin(url_remote, reverse("core_main_app_rest_data_get_by_id_with_template_info"))
+    url = urljoin(instance.endpoint, reverse("core_main_app_rest_data_get_by_id_with_template_info"))
     url = "{0}?id={1}".format(url, str(data_id))
 
     # execute request

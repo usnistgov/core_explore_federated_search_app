@@ -24,7 +24,7 @@
             {% cycle 'even' '' as rowcolors silent %}
             <tr class="{{ rowcolors }}">
                 <td>{{ instance.name }}</td>
-                <td>{{ instance.protocol }}://{{ instance.address }}:{{ instance.port }}</td>
+                <td>{{ instance.endpoint }}</td>
                 <td>{{ instance.expires }}</td>
                 <td id="{{ instance.id }}">
                     {% block box_actions %}

@@ -1,11 +1,13 @@
 """ Admin views Core explore Federated Search App
 """
 from django.contrib.admin.views.decorators import staff_member_required
+from django.core.urlresolvers import reverse
+from django.http.response import HttpResponseRedirect
+
 from core_main_app.utils.rendering import admin_render
 from core_explore_federated_search_app.views.admin.forms import RepositoryForm
 from datetime import datetime, timedelta
 from core_explore_federated_search_app.components.instance.models import Instance
-from core_explore_common_app.utils.protocols.commons import get_url
 from core_explore_common_app.utils.protocols.oauth2 import post_request_token
 import core_main_app.commons.exceptions as common_exception
 import core_explore_federated_search_app.components.instance.api as api_instance
@@ -73,8 +75,7 @@ def add_repository(request):
         context['repository_form'] = form
         if form.is_valid():
             try:
-                url = get_url(request.POST["protocol"], request.POST["ip_address"], request.POST["port"])
-
+                url = request.POST["endpoint"]
                 r = post_request_token(url, request.POST["client_id"], request.POST["client_secret"],
                                        request.POST["timeout"], request.POST["username"], request.POST["password"])
 
@@ -82,8 +83,7 @@ def add_repository(request):
                     try:
                         instance = _create_instance(r.content, request.POST)
                         api_instance.upsert(instance)
-                        context['success'] = "New instance added with success."
-                        new_form = True
+                        return HttpResponseRedirect(reverse("admin:core_explore_federated_search_app_repositories"))
                     except common_exception.NotUniqueError:
                         context['error'] = "An instance with the same parameters already exists."
                     except Exception as e:
@@ -119,6 +119,6 @@ def _create_instance(content, request):
     now = datetime.now()
     delta = timedelta(seconds=int(json.loads(content)["expires_in"]))
     expires = now + delta
-    return Instance(name=request["name"], protocol=request["protocol"], address=request["ip_address"],
-                    port=request["port"], access_token=json.loads(content)["access_token"],
+    return Instance(name=request["name"], endpoint=request['endpoint'],
+                    access_token=json.loads(content)["access_token"],
                     refresh_token=json.loads(content)["refresh_token"], expires=expires)

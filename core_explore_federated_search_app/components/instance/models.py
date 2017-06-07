@@ -9,9 +9,7 @@ class Instance(Document):
     """ Represents an instance of a remote project
     """
     name = fields.StringField(blank=False, unique=True)
-    protocol = fields.StringField(blank=False)
-    address = fields.StringField(blank=False, unique_with='port')
-    port = fields.IntField(blank=False)
+    endpoint = fields.StringField(blank=False, unique=True)
     access_token = fields.StringField(blank=False)
     refresh_token = fields.StringField(blank=False)
     expires = fields.DateTimeField(blank=False)

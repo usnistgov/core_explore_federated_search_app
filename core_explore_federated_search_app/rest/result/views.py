@@ -1,12 +1,9 @@
 """ REST views for the data API
 """
 from urlparse import urljoin
-
 from django.core.urlresolvers import reverse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
-from core_explore_common_app.utils.protocols.commons import get_url
 from core_explore_common_app.utils.protocols.oauth2 import send_get_request as oauth2_request
 from rest_framework import status
 from core_explore_common_app.utils.result.result import get_result_from_rest_data_response
@@ -43,8 +40,8 @@ def get_result_from_data_id(request):
 
         # requests the remote instance
         instance = instance_api.get_by_name(instance_name)
-        url_base = get_url(instance.protocol, instance.address, instance.port)
-        response = oauth2_request("{0}?id={1}".format(urljoin(url_base, url_get_data), data_id), instance.access_token)
+        response = oauth2_request("{0}?id={1}".format(urljoin(instance.endpoint, url_get_data), data_id),
+                                  instance.access_token)
 
         # if got a response from data
         if response.status_code == 200:

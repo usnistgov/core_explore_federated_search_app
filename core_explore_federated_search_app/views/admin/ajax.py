@@ -3,7 +3,6 @@
 from django.http.response import HttpResponse, HttpResponseBadRequest
 from django.template import RequestContext, loader
 from datetime import datetime, timedelta
-from core_explore_common_app.utils.protocols.commons import get_url
 from core_explore_common_app.utils.protocols.oauth2 import post_refresh_token
 from core_explore_federated_search_app.commons.exceptions import ExploreFederatedSearchAjaxError
 import core_explore_federated_search_app.views.admin.forms as admin_forms
@@ -71,9 +70,7 @@ def _refresh_repository_post(request):
             raise ExploreFederatedSearchAjaxError("Error: Unable to access the registered instance.")
 
         try:
-            url = get_url(instance.protocol, instance.address, instance.port)
-
-            r = post_refresh_token(url, request.POST["client_id"], request.POST["client_secret"],
+            r = post_refresh_token(instance.endpoint, request.POST["client_id"], request.POST["client_secret"],
                                    request.POST["timeout"], instance.refresh_token)
 
             if r.status_code == 200:

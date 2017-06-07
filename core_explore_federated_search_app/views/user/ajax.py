@@ -5,7 +5,6 @@ from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
 from django.template import RequestContext
 from core_explore_common_app.components.query.models import DataSource, Authentication
-from core_explore_common_app.utils.protocols.commons import get_url
 from urlparse import urljoin
 import core_explore_federated_search_app.components.instance.api as api_instance
 import core_explore_common_app.components.query.api as api_query
@@ -116,5 +115,5 @@ def _get_url_with_federated_rest_extension(instance):
     Returns:
 
     """
-    return urljoin(get_url(instance.protocol, instance.address, instance.port),
+    return urljoin(instance.endpoint,
                    reverse("core_explore_federated_search_app_rest_execute_query"))

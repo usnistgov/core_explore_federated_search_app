@@ -5,6 +5,13 @@
 {% block modal_title %}Edit Repository{% endblock %}
 
 {% block modal_body %}
+<div id="edit-error-div">
+    <br/>
+    <div class="alert alert-danger alert-dismissable">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong><span id="edit-error-message"></span></strong>
+    </div>
+</div>
 <form id="edit-repository-form">
     <input id="edit-repository-id" type="hidden" value=""/>
     <div class="form-group">
