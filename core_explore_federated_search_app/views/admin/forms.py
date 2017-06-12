@@ -8,7 +8,7 @@ PROTOCOLS = (('http', 'HTTP'),
 
 
 class RepositoryForm(forms.Form):
-    """ Form to register a new repository
+    """ Form to register a new repository.
     """
     name = forms.CharField(label='Instance Name', max_length=100, required=True,
                            widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -27,7 +27,7 @@ class RepositoryForm(forms.Form):
 
 
 class RefreshRepositoryForm(forms.Form):
-    """ Form to refresh the token of a repository
+    """ Form to refresh the token of a repository.
     """
     client_id = forms.CharField(label='Client ID', max_length=100, required=True,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}))

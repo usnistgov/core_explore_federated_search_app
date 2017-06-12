@@ -7,7 +7,7 @@ from core_main_app.commons.exceptions import ApiError
 
 
 def get_all():
-    """ List all instance
+    """ List all instance.
 
     Returns: instance collection
 
@@ -16,7 +16,7 @@ def get_all():
 
 
 def get_by_id(instance_id):
-    """ Returns instance object with the given id
+    """ Return instance object with the given id.
 
     Args:
         instance_id:
@@ -28,7 +28,7 @@ def get_by_id(instance_id):
 
 
 def get_by_name(instance_name):
-    """ Returns instance object with the given name
+    """ Return instance object with the given name.
 
     Args:
         instance_name:
@@ -40,7 +40,7 @@ def get_by_name(instance_name):
 
 
 def delete(instance):
-    """ Delete an instance
+    """ Delete an instance.
 
     Args:
         instance:
@@ -52,7 +52,7 @@ def delete(instance):
 
 
 def upsert(instance):
-    """ Update or save an instance
+    """ Update or save an instance.
 
     Args:
         instance:
@@ -64,7 +64,7 @@ def upsert(instance):
 
 
 def request_token(instance, client_id, client_secret, timeout=1000):
-    """ Create the instance by requesting a token
+    """ Create the instance by requesting a token.
 
     Args:
         instance:
@@ -92,7 +92,7 @@ def request_token(instance, client_id, client_secret, timeout=1000):
 
 
 def refresh_token(instance, timeout=1000):
-    """ Refresh the instance token
+    """ Refresh the instance token.
 
     Args:
         instance:
@@ -115,7 +115,7 @@ def refresh_token(instance, timeout=1000):
 
 
 def _get_url_for_request(instance):
-    """ Get an URL from an instance
+    """ Get an URL from an instance.
 
     Args:
         instance:
@@ -127,7 +127,7 @@ def _get_url_for_request(instance):
 
 
 def _update_instance_token_from_response(instance, response):
-    """ Update an instance token from an http response
+    """ Update an instance token from an http response.
 
     Args:
         instance:

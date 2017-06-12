@@ -16,7 +16,7 @@ import json
 
 @staff_member_required
 def manage_repositories(request):
-    """ Manage repositories, Display as list
+    """ Manage repositories, Display as list.
 
     Args:
         request:
@@ -60,7 +60,7 @@ def manage_repositories(request):
 
 @staff_member_required
 def add_repository(request):
-    """ Add new repository
+    """ Add new repository.
 
     Args:
         request:
@@ -107,7 +107,7 @@ def add_repository(request):
 
 
 def _create_instance(content, request):
-    """ Create an Instance object from a request
+    """ Create an Instance object from a request.
 
     Args:
         content:

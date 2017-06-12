@@ -9,7 +9,7 @@ import json
 
 
 def data_detail(request):
-    """ Display data's detail for a remote data
+    """ Display data's detail for a remote data.
 
     Args:
         request:

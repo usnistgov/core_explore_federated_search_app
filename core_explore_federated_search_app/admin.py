@@ -1,9 +1,7 @@
-"""
-Url router for the administration site
+""" Url router for the administration site
 """
 from django.contrib import admin
 from django.conf.urls import url
-
 from views.admin import views as admin_views, ajax as admin_ajax
 
 admin_urls = [

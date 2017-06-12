@@ -12,7 +12,7 @@ import core_explore_federated_search_app.components.instance.api as instance_api
 
 @api_view(['GET'])
 def get_result_from_data_id(request):
-    """ Access data, Returns Result, Expects an data ID and an Remote name in parameters
+    """ Access data, Return Result, Expect a data ID and a Remote name in parameters.
 
     Args:
         request:

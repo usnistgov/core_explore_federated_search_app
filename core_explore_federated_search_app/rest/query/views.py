@@ -15,7 +15,7 @@ import json
 
 @api_view(['POST'])
 def execute_query(request):
-    """ execute query and returns result
+    """ Execute query and return result.
 
     Args:
         request:
@@ -79,6 +79,15 @@ def execute_query(request):
 
 
 def _update_query_builder(query_builder, templates):
+    """ Update the query criteria with a list of templates.
+
+    Args:
+        query_builder:
+        templates:
+
+    Returns:
+
+    """
     template_id_list = []
     for template in templates:
         template_id_list.extend(get_all_by_hash(template['hash']).values_list('id'))

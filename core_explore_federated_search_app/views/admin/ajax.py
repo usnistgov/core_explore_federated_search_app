@@ -11,7 +11,7 @@ import json
 
 
 def delete_repository(request):
-    """ Delete repository
+    """ Delete repository.
 
     Returns:
 
@@ -25,7 +25,7 @@ def delete_repository(request):
 
 
 def edit_repository(request):
-    """ Edit the repository
+    """ Edit the repository.
 
     Args:
         request:
@@ -43,7 +43,7 @@ def edit_repository(request):
 
 
 def refresh_repository(request):
-    """ Refresh repository
+    """ Refresh repository.
 
     Args:
         request:
@@ -61,6 +61,14 @@ def refresh_repository(request):
 
 
 def _refresh_repository_post(request):
+    """ POST request refresh repository.
+
+    Args:
+        request:
+
+    Returns:
+
+    """
     form = admin_forms.RefreshRepositoryForm(request.POST)
     if form.is_valid():
         try:
@@ -87,6 +95,14 @@ def _refresh_repository_post(request):
 
 
 def _refresh_repository_get(request):
+    """ GET request refresh repository.
+
+    Args:
+        request:
+
+    Returns:
+
+    """
     context_params = dict()
     template = loader.get_template('core_explore_federated_search_app/admin/repositories/list/refresh_form.html')
     refresh_form = admin_forms.RefreshRepositoryForm()
@@ -96,6 +112,15 @@ def _refresh_repository_get(request):
 
 
 def _update_instance(instance, content):
+    """ Update an instance object from a response content.
+
+    Args:
+        instance:
+        content:
+
+    Returns:
+
+    """
     now = datetime.now()
     delta = timedelta(seconds=int(json.loads(content)["expires_in"]))
     expires = now + delta

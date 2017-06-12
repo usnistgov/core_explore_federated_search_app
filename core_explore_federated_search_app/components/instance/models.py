@@ -16,7 +16,7 @@ class Instance(Document):
 
     @staticmethod
     def get_all():
-        """ Returns all instances
+        """ Return all instances.
 
         Returns:
             instance collection
@@ -26,7 +26,7 @@ class Instance(Document):
 
     @staticmethod
     def get_by_id(instance_id):
-        """ Returns the object with the given id
+        """ Return the object with the given id.
 
         Args:
             instance_id:
@@ -44,7 +44,7 @@ class Instance(Document):
 
     @staticmethod
     def get_by_name(instance_name):
-        """ Returns the object with the given name
+        """ Return the object with the given name.
 
         Args:
             instance_name:
@@ -61,7 +61,7 @@ class Instance(Document):
             raise exceptions.ModelError(ex.message)
 
     def save_object(self):
-        """ Custom save
+        """ Custom save.
 
         Returns:
 
@@ -75,7 +75,7 @@ class Instance(Document):
             raise exceptions.ModelError(ex.message)
 
     def check_instance_name(self):
-        """ test if the name is "Local"
+        """ Test if the name is 'Local'.
 
         Returns:
 
