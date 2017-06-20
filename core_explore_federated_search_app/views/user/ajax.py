@@ -6,9 +6,8 @@ from django.shortcuts import render
 from django.template import RequestContext
 from core_explore_common_app.components.query.models import DataSource, Authentication
 from urlparse import urljoin
-import core_explore_federated_search_app.components.instance.api as api_instance
 import core_explore_common_app.components.query.api as api_query
-import core_explore_federated_search_app.components.instance.api as instance_api
+import core_federated_search_app.components.instance.api as instance_api
 import json
 
 
@@ -83,7 +82,7 @@ def update_data_source_list_federated(request):
 
             # Get instance from id
             if id_instance is not None:
-                instance = api_instance.get_by_id(id_instance)
+                instance = instance_api.get_by_id(id_instance)
 
                 # Generate url from instance information
                 url = _get_url_with_federated_rest_extension(instance)

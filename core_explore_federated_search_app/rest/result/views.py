@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from core_explore_common_app.utils.protocols.oauth2 import send_get_request as oauth2_request
 from rest_framework import status
 from core_explore_common_app.utils.result.result import get_result_from_rest_data_response
-import core_explore_federated_search_app.components.instance.api as instance_api
+import core_federated_search_app.components.instance.api as instance_api
 
 
 @api_view(['GET'])

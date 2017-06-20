@@ -4,7 +4,7 @@ from core_main_app.utils.rendering import render
 from django.core.urlresolvers import reverse
 from core_explore_common_app.utils.protocols.oauth2 import send_get_request
 from urlparse import urljoin
-import core_explore_federated_search_app.components.instance.api as instance_api
+import core_federated_search_app.components.instance.api as instance_api
 import json
 
 
