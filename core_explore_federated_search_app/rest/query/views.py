@@ -3,6 +3,7 @@
 from django.core.urlresolvers import reverse
 from core_explore_common_app.components.result.models import Result
 from core_explore_common_app.rest.result.serializers import ResultSerializer
+from core_explore_common_app.utils.pagination.rest_framework_paginator.pagination import StandardResultsSetPagination
 from core_main_app.components.template.api import get_all_by_hash
 from core_explore_common_app.utils.query.mongo.query_builder import QueryBuilder
 from rest_framework.decorators import api_view
@@ -44,6 +45,12 @@ def execute_query(request):
         # execute query
         data_list = data_api.execute_query(raw_query)
 
+        # get paginator
+        paginator = StandardResultsSetPagination()
+
+        # get request page from list of results
+        page = paginator.paginate_queryset(data_list, request)
+
         # Serialize object
         results = []
         url = reverse("core_explore_federated_search_app_data_detail")
@@ -56,7 +63,7 @@ def execute_query(request):
 
         # Template info
         template_info = dict()
-        for data in data_list:
+        for data in page:
             # get data's template
             template = data.template
             # get and store data's template information
@@ -72,7 +79,7 @@ def execute_query(request):
 
         return_value = ResultSerializer(results, many=True)
 
-        return Response(return_value.data, status=status.HTTP_200_OK)
+        return paginator.get_paginated_response(return_value.data)
     except Exception as api_exception:
         content = {'message': api_exception.message}
         return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
