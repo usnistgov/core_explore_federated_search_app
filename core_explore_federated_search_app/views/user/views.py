@@ -41,7 +41,7 @@ def data_detail(request):
     # data to context
     data = {'title': record['title'],
             'xml_content': record['xml_content'],
-            'template': {'hash': record['template']['hash']}}
+            'template': {'hash': record['template']['hash'], 'display_name': record['template']['_display_name']}}
 
     context = {
         'data': data
