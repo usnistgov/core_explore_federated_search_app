@@ -8,7 +8,6 @@ core_explore_federated_search_app is a Django app.
 
 ```python
 INSTALLED_APPS = [
-  'oauth2_provider',
   'core_explore_federated_search_app',
 ]
 ```

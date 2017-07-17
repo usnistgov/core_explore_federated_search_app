@@ -1,4 +1,4 @@
 core-main-app==1.0.0-alpha3
 core-explore-common-app==1.0.0-alpha3
+core-federated-search-app==1.0.0-alpha2
 requests==2.3.0
-oauthlib==2.0.2
