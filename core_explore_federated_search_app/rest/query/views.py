@@ -43,7 +43,7 @@ def execute_query(request):
         raw_query = query_builder.get_raw_query()
 
         # execute query
-        data_list = data_api.execute_query(raw_query)
+        data_list = data_api.execute_query(raw_query, request.user)
 
         # get paginator
         paginator = StandardResultsSetPagination()
