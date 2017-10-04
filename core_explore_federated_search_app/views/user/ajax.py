@@ -1,14 +1,15 @@
 """ Ajax User core explore federated
 """
+import json
+from urlparse import urljoin
+
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
-from django.template import RequestContext
-from core_explore_common_app.components.query.models import DataSource, Authentication
-from urlparse import urljoin
+
 import core_explore_common_app.components.query.api as api_query
 import core_federated_search_app.components.instance.api as instance_api
-import json
+from core_explore_common_app.components.query.models import DataSource, Authentication
 
 
 def get_data_source_list_federated(request):
@@ -53,7 +54,9 @@ def get_data_source_list_federated(request):
             context_params['instances'] = item_list
 
             # return context
-            context = RequestContext(request, context_params)
+            context = {}
+            context.update(request)
+            context.update(context_params)
             return render(request, 'core_explore_federated_search_app/user/data_sources/list-content.html', context)
         else:
             return HttpResponseBadRequest("Error during loading data sources from federated search.")
