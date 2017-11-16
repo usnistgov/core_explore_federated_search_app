@@ -68,7 +68,7 @@ def execute_query(request):
             template = data.template
             # get and store data's template information
             if template not in template_info:
-                template_info[template] = result_utils.get_template_info(template, include_template_id=False)
+                template_info[template] = result_utils.get_template_info(template, include_template_id=True)
 
             results.append(Result(title=data.title,
                                   xml_content=data.xml_content,
@@ -95,10 +95,11 @@ def _update_query_builder(query_builder, templates):
     Returns:
 
     """
-    template_id_list = []
-    for template in templates:
-        template_id_list.extend(get_all_by_hash(template['hash']).values_list('id'))
+    if len(templates) > 0:
+        template_id_list = []
+        for template in templates:
+            template_id_list.extend(get_all_by_hash(template['hash']).values_list('id'))
 
-    # Even if the list is empty, we add it to the query
-    # empty list means there is no equal template with the hash given
-    query_builder.add_list_templates_criteria(template_id_list)
+        # Even if the list is empty, we add it to the query
+        # empty list means there is no equal template with the hash given
+        query_builder.add_list_templates_criteria(template_id_list)
