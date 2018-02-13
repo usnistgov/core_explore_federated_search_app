@@ -68,7 +68,7 @@ def execute_query(request):
             template = data.template
             # get and store data's template information
             if template not in template_info:
-                template_info[template] = result_utils.get_template_info(template, include_template_id=True)
+                template_info[template] = result_utils.get_template_info(template, include_template_id=False)
 
             results.append(Result(title=data.title,
                                   xml_content=data.xml_content,
