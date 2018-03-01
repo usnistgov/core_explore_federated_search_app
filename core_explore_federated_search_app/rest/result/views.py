@@ -2,7 +2,7 @@
 """
 from urlparse import urljoin
 from django.core.urlresolvers import reverse
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, schema
 from rest_framework.response import Response
 from core_explore_common_app.utils.protocols.oauth2 import send_get_request as oauth2_request
 from rest_framework import status
@@ -11,6 +11,7 @@ import core_federated_search_app.components.instance.api as instance_api
 
 
 @api_view(['GET'])
+@schema(None)
 def get_result_from_data_id(request):
     """ Access data, Return Result, Expect a data ID and a Remote name in parameters.
 
