@@ -1,4 +1,5 @@
-core_explore_federated_search_app
+=================================
+Core Explore Federated Search App
 =================================
 
 Federation exploration functions for curator core project.
