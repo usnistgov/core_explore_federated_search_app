@@ -5,7 +5,7 @@ from core_explore_common_app.components.result.models import Result
 from core_explore_common_app.rest.result.serializers import ResultSerializer
 from core_explore_common_app.utils.pagination.rest_framework_paginator.pagination import StandardResultsSetPagination
 from core_main_app.components.template.api import get_all_by_hash
-from core_explore_common_app.utils.query.mongo.query_builder import QueryBuilder
+from core_main_app.utils.query.mongo.query_builder import QueryBuilder
 from rest_framework.decorators import api_view, schema
 from rest_framework.response import Response
 from rest_framework import status
