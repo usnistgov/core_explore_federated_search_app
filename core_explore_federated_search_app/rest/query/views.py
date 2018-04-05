@@ -1,17 +1,19 @@
 """ REST views for the query API
 """
+import json
+
 from django.core.urlresolvers import reverse
-from core_explore_common_app.components.result.models import Result
-from core_explore_common_app.rest.result.serializers import ResultSerializer
-from core_explore_common_app.utils.pagination.rest_framework_paginator.pagination import StandardResultsSetPagination
-from core_main_app.components.template.api import get_all_by_hash
-from core_main_app.utils.query.mongo.query_builder import QueryBuilder
+from rest_framework import status
 from rest_framework.decorators import api_view, schema
 from rest_framework.response import Response
-from rest_framework import status
-from core_explore_common_app.utils.result import result as result_utils
+
 import core_main_app.components.data.api as data_api
-import json
+from core_explore_common_app.components.result.models import Result
+from core_explore_common_app.rest.result.serializers import ResultSerializer
+from core_explore_common_app.utils.result import result as result_utils
+from core_main_app.components.template.api import get_all_by_hash
+from core_main_app.utils.pagination.rest_framework_paginator.pagination import StandardResultsSetPagination
+from core_main_app.utils.query.mongo.query_builder import QueryBuilder
 
 
 @api_view(['POST'])
