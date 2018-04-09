@@ -10,8 +10,6 @@ from rest_framework.views import APIView
 import core_main_app.components.data.api as data_api
 from core_explore_common_app.components.result.models import Result
 from core_explore_common_app.rest.result.serializers import ResultSerializer
-from core_explore_common_app.utils.pagination.rest_framework_paginator.pagination import StandardResultsSetPagination
-from core_explore_common_app.utils.query.mongo.query_builder import QueryBuilder
 from core_explore_common_app.utils.result import result as result_utils
 from core_explore_federated_search_app.rest.query.serializers import QueryExecuteSerializer
 from core_main_app.components.template.api import get_all_by_hash
