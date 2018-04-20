@@ -9,7 +9,7 @@ from django.shortcuts import render
 
 import core_explore_common_app.components.query.api as api_query
 import core_federated_search_app.components.instance.api as instance_api
-from core_explore_common_app.components.query.models import DataSource, Authentication
+from core_explore_common_app.components.abstract_query.models import Authentication, DataSource
 
 
 def get_data_source_list_federated(request):
