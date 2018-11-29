@@ -20,13 +20,27 @@ class ResultDetail(APIView):
     """ Result Detail API view
     """
     def get(self, request):
-        """ Access data, Return Result, Expect a data ID and a Remote name in parameters.
+        """ Access data, Return Result, Expect a data ID and a Remote name in parameters
+
+        Parameters:
+
+            {
+                "id" : "data_id",
+                "instance_name" : "endpoint_name"
+            }
 
         Args:
+
             request:
 
         Returns:
 
+            - code: 200
+              content: Data
+            - code: 400
+              content: Validation error
+            - code: 500
+              content: Internal server error
         """
         try:
             # Build serializer

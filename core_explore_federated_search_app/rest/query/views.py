@@ -23,13 +23,26 @@ class QueryExecute(APIView):
     """
 
     def post(self, request):
-        """ Execute query and return result.
+        """ Execute query
+
+        Parameters:
+
+            {
+                "query" : "value",
+                "options" : "number",
+                "templates" : "[]"
+            }
 
         Args:
-            request:
+
+            request: HTTP request
 
         Returns:
 
+            - code: 200
+              content: Paginated list of Data
+            - code: 500
+              content: Internal server error
         """
         try:
             # serialization
