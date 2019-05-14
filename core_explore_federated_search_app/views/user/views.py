@@ -1,11 +1,14 @@
 """ Federated user views
 """
-from core_main_app.utils.rendering import render
-from django.core.urlresolvers import reverse
-from core_explore_common_app.utils.protocols.oauth2 import send_get_request
-from urlparse import urljoin
-import core_federated_search_app.components.instance.api as instance_api
 import json
+from urlparse import urljoin
+
+from django.core.urlresolvers import reverse
+
+import core_federated_search_app.components.instance.api as instance_api
+from core_explore_common_app.utils.protocols.oauth2 import send_get_request
+from core_main_app.settings import INSTALLED_APPS
+from core_main_app.utils.rendering import render
 
 
 def data_detail(request):
@@ -60,5 +63,21 @@ def data_detail(request):
         ],
         "css": ["core_main_app/common/css/XMLTree.css"],
     }
+    
+    modals = []
 
-    return render(request, 'core_explore_federated_search_app/user/data_detail.html', context=context, assets=assets)
+    if "core_file_preview_app" in INSTALLED_APPS:
+        assets["js"].extend([
+            {
+                "path": 'core_file_preview_app/user/js/file_preview.js',
+                "is_raw": False
+            }
+        ])
+        assets["css"].append("core_file_preview_app/user/css/file_preview.css")
+        modals.append("core_file_preview_app/user/file_preview_modal.html")
+
+    return render(request,
+                  'core_explore_federated_search_app/user/data_detail.html',
+                  context=context,
+                  assets=assets,
+                  modals=modals)
