@@ -3,7 +3,6 @@
 from urllib.parse import urljoin
 
 from django.core.urlresolvers import reverse
-from future import standard_library
 from rest_framework import status
 from rest_framework.decorators import schema
 from rest_framework.exceptions import ValidationError
@@ -15,7 +14,6 @@ from core_explore_common_app.utils.protocols.oauth2 import send_get_request as o
 from core_explore_common_app.utils.result.result import get_result_from_rest_data_response
 from core_explore_federated_search_app.rest.result.serializers import ResultDetailSerializer
 
-standard_library.install_aliases()
 
 
 @schema(None)

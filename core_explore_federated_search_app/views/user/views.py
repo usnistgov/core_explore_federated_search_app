@@ -1,18 +1,15 @@
 """ Federated user views
 """
 import json
-from builtins import str
 from urllib.parse import urljoin
 
 from django.core.urlresolvers import reverse
-from future import standard_library
 
 import core_federated_search_app.components.instance.api as instance_api
 from core_explore_common_app.utils.protocols.oauth2 import send_get_request
 from core_main_app.settings import INSTALLED_APPS
 from core_main_app.utils.rendering import render
 
-standard_library.install_aliases()
 
 
 def data_detail(request):

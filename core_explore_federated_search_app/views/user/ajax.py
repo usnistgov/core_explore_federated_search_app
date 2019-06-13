@@ -6,13 +6,11 @@ from urllib.parse import urljoin
 from django.core.urlresolvers import reverse
 from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
-from future import standard_library
 
 import core_explore_common_app.components.query.api as api_query
 import core_federated_search_app.components.instance.api as instance_api
 from core_explore_common_app.components.abstract_query.models import Authentication, DataSource
 
-standard_library.install_aliases()
 
 
 def get_data_source_list_federated(request):
