@@ -11,7 +11,6 @@ from core_main_app.settings import INSTALLED_APPS
 from core_main_app.utils.rendering import render
 
 
-
 def data_detail(request):
     """ Display data's detail for a remote data.
 

@@ -12,7 +12,6 @@ import core_federated_search_app.components.instance.api as instance_api
 from core_explore_common_app.components.abstract_query.models import Authentication, DataSource
 
 
-
 def get_data_source_list_federated(request):
     """ Ajax method to fill the list of data sources.
 

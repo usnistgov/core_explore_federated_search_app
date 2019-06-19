@@ -15,7 +15,6 @@ from core_explore_common_app.utils.result.result import get_result_from_rest_dat
 from core_explore_federated_search_app.rest.result.serializers import ResultDetailSerializer
 
 
-
 @schema(None)
 class ResultDetail(APIView):
     """ Result Detail API view
