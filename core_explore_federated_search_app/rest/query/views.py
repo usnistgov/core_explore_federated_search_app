@@ -55,6 +55,9 @@ class QueryExecute(APIView):
             if 'options' in serializer.validated_data:
                 options = serializer.validated_data['options']
 
+            # get the query order by field
+            order_by_field = request.data['order_by_field'].split(',') if 'order_by_field' in request.data else ''
+
             # init a QueryBuilder with the query
             query_builder = QueryBuilder(serializer.validated_data['query'], 'dict_content')
 
@@ -65,7 +68,7 @@ class QueryExecute(APIView):
             # create a raw query
             raw_query = query_builder.get_raw_query()
             # execute query
-            data_list = data_api.execute_query(raw_query, request.user)
+            data_list = data_api.execute_query(raw_query, request.user, order_by_field)
             # get paginator
             paginator = StandardResultsSetPagination()
             # get request page from list of results
