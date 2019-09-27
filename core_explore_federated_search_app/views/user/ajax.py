@@ -3,7 +3,7 @@
 import json
 from urllib.parse import urljoin
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
 
