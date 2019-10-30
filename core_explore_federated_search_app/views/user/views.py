@@ -3,7 +3,7 @@
 import json
 from urllib.parse import urljoin
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 import core_federated_search_app.components.instance.api as instance_api
 from core_explore_common_app.utils.protocols.oauth2 import send_get_request
