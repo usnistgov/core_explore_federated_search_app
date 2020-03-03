@@ -10,6 +10,7 @@ from django.shortcuts import render
 import core_explore_common_app.components.query.api as api_query
 import core_federated_search_app.components.instance.api as instance_api
 from core_explore_common_app.components.abstract_query.models import Authentication, DataSource
+from core_main_app.settings import DATA_SORTING_FIELDS
 
 
 def get_data_source_list_federated(request):
@@ -93,7 +94,10 @@ def update_data_source_list_federated(request):
             if to_be_added:
                 # Instance have to be added in the query as a datasource
                 authentication = Authentication(type='oauth2', params={'access_token': instance.access_token})
-                data_source = DataSource(name=instance.name, url_query=url, authentication=authentication)
+                data_source = DataSource(name=instance.name,
+                                         url_query=url,
+                                         authentication=authentication,
+                                         order_by_field=','.join(DATA_SORTING_FIELDS))
                 data_source.query_options = {'instance_name': instance.name}
                 api_query.add_data_source(query, data_source)
             else:
