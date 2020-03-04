@@ -1,6 +1,6 @@
 """ REST views for the query API
 """
-
+import pytz
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.decorators import schema
@@ -98,7 +98,7 @@ class QueryExecute(APIView):
                                       template_info=template_info[template],
                                       permission_url=None,
                                       detail_url="{0}?id={1}&instance_name={2}".format(url, data.id, instance_name),
-                                      last_modification_date=data.last_modification_date,
+                                      last_modification_date=pytz.utc.localize(data.last_modification_date),
                                       access_data_url="{0}?id={1}&instance_name={2}".format(url_access_data,
                                                                                             data.id, instance_name)))
 
