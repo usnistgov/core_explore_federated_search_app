@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.decorators import schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.utils.timezone import activate
 
 import core_main_app.components.data.api as data_api
 from core_explore_common_app.components.result.models import Result
@@ -86,6 +87,12 @@ class QueryExecute(APIView):
 
             # Template info
             template_info = dict()
+
+            # get the request session time zone
+            request_time_zone = request.META.get("HTTP_TZ") if request.META.get("HTTP_TZ") else 'UTC'
+            # activate the timezone according to the request
+            activate(pytz.timezone(request_time_zone))
+
             for data in page:
                 # get data's template
                 template = data.template
