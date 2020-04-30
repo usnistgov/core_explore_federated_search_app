@@ -134,4 +134,4 @@ def _update_query_builder(query_builder, templates):
 
         # Even if the list is empty, we add it to the query
         # empty list means there is no equal template with the hash given
-        query_builder.add_list_templates_criteria(template_id_list)
+        query_builder.add_list_criteria('template', template_id_list)
