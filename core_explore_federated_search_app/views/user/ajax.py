@@ -13,7 +13,7 @@ from core_explore_common_app.components.abstract_query.models import (
     Authentication,
     DataSource,
 )
-from core_main_app.settings import DATA_SORTING_FIELDS
+from core_explore_federated_search_app import settings
 
 
 def get_data_source_list_federated(request):
@@ -119,9 +119,17 @@ def update_data_source_list_federated(request):
                     name=instance.name,
                     url_query=url,
                     authentication=authentication,
-                    order_by_field=",".join(DATA_SORTING_FIELDS),
+                    order_by_field=",".join(settings.DATA_SORTING_FIELDS),
                 )
                 data_source.query_options = {"instance_name": instance.name}
+
+                if "core_linked_records_app" in settings.INSTALLED_APPS:
+                    data_source.capabilities = {
+                        "url_pid": urljoin(
+                            instance.endpoint, reverse("core_linked_records_app_query")
+                        )
+                    }
+
                 api_query.add_data_source(query, data_source)
             else:
                 # Data source have to be remove from the query
