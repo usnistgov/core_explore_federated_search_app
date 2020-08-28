@@ -17,7 +17,7 @@ from core_explore_federated_search_app import settings
 
 
 def get_data_source_list_federated(request):
-    """ Ajax method to fill the list of data sources.
+    """Ajax method to fill the list of data sources.
 
     Args:
         request:
@@ -85,7 +85,7 @@ def get_data_source_list_federated(request):
 
 
 def update_data_source_list_federated(request):
-    """ Ajax method to update query data sources in bdd.
+    """Ajax method to update query data sources in bdd.
 
     Args:
         request:
@@ -147,7 +147,7 @@ def update_data_source_list_federated(request):
 
 
 def _get_url_with_federated_rest_extension(instance):
-    """ Generate an url from instance object with federated rest extension.
+    """Generate an url from instance object with federated rest extension.
 
     Args:
         instance:

@@ -24,11 +24,10 @@ from core_main_app.utils.query.mongo.query_builder import QueryBuilder
 
 @schema(None)
 class QueryExecute(APIView):
-    """ Execute query endpoint
-    """
+    """Execute query endpoint"""
 
     def post(self, request):
-        """ Execute query
+        """Execute query
 
         Parameters:
 
@@ -145,7 +144,7 @@ class QueryExecute(APIView):
 
 
 def _update_query_builder(query_builder, templates):
-    """ Update the query criteria with a list of templates.
+    """Update the query criteria with a list of templates.
 
     Args:
         query_builder:

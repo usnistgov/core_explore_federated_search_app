@@ -23,11 +23,10 @@ from core_explore_federated_search_app.rest.result.serializers import (
 
 @schema(None)
 class ResultDetail(APIView):
-    """ Result Detail API view
-    """
+    """Result Detail API view"""
 
     def get(self, request):
-        """ Access data, Return Result, Expect a data ID and a Remote name in parameters
+        """Access data, Return Result, Expect a data ID and a Remote name in parameters
 
         Parameters:
 

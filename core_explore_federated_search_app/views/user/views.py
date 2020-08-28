@@ -13,8 +13,7 @@ from core_main_app.views.common.views import CommonView
 
 
 class ViewData(CommonView):
-    """ View detail from remote data.
-    """
+    """View detail from remote data."""
 
     template = "core_explore_federated_search_app/user/data_detail.html"
 
