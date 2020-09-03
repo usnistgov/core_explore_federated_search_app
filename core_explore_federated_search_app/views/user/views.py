@@ -8,14 +8,12 @@ from django.urls import reverse
 import core_federated_search_app.components.instance.api as instance_api
 from core_explore_common_app.utils.protocols.oauth2 import send_get_request
 from core_main_app.commons import exceptions
-from core_main_app.settings import INSTALLED_APPS
+from core_main_app.utils.view_builders import data as data_view_builder
 from core_main_app.views.common.views import CommonView
 
 
 class ViewData(CommonView):
     """View detail from remote data."""
-
-    template = "core_explore_federated_search_app/user/data_detail.html"
 
     def get(self, request):
         # get parameters
@@ -39,7 +37,7 @@ class ViewData(CommonView):
             record = json.loads(response.text)
 
             # data to context
-            data = {
+            data_object = {
                 "title": record["title"],
                 "xml_content": record["xml_content"],
                 "template": {
@@ -48,34 +46,11 @@ class ViewData(CommonView):
                 },
             }
 
-            context = {"data": data}
+            page_context = data_view_builder.build_page(data_object)
 
-            assets = {
-                "js": [
-                    {"path": "core_main_app/common/js/XMLTree.js", "is_raw": False},
-                    {"path": "core_main_app/user/js/data/detail.js", "is_raw": False},
-                ],
-                "css": ["core_main_app/common/css/XMLTree.css"],
-            }
-
-            modals = []
-
-            if "core_file_preview_app" in INSTALLED_APPS:
-                assets["js"].extend(
-                    [
-                        {
-                            "path": "core_file_preview_app/user/js/file_preview.js",
-                            "is_raw": False,
-                        }
-                    ]
-                )
-                assets["css"].append("core_file_preview_app/user/css/file_preview.css")
-                modals.append("core_file_preview_app/user/file_preview_modal.html")
-
-            return self.common_render(
-                request, self.template, context=context, assets=assets, modals=modals
+            return data_view_builder.render_page(
+                request, self.common_render, page_context
             )
-
         except exceptions.DoesNotExist as e:
             error_message = "The instance with the name: {0} does not exist".format(
                 instance_name
