@@ -5,8 +5,8 @@ from urllib.parse import urljoin
 
 from django.urls import reverse
 
-import core_federated_search_app.components.instance.api as instance_api
 from core_explore_common_app.utils.protocols.oauth2 import send_get_request
+from core_federated_search_app.components.instance import api as instance_api
 from core_main_app.commons import exceptions
 from core_main_app.utils.view_builders import data as data_view_builder
 from core_main_app.views.common.views import CommonView
@@ -38,6 +38,7 @@ class ViewData(CommonView):
 
             # data to context
             data_object = {
+                "fede_data_id": data_id,
                 "title": record["title"],
                 "xml_content": record["xml_content"],
                 "template": {
