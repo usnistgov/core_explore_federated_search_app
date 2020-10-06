@@ -30,7 +30,7 @@ def get_data_source_list_federated(request):
 
         if id_query is not None:
             # Get query from id
-            query = api_query.get_by_id(id_query)
+            query = api_query.get_by_id(id_query, request.user)
             instance_list = instance_api.get_all()
 
             item_list = []
@@ -101,7 +101,7 @@ def update_data_source_list_federated(request):
 
         # Get query from id
         if id_query is not None:
-            query = api_query.get_by_id(id_query)
+            query = api_query.get_by_id(id_query, request.user)
 
             # Get instance from id
             if id_instance is not None:
@@ -131,13 +131,13 @@ def update_data_source_list_federated(request):
                         )
                     }
 
-                api_query.add_data_source(query, data_source)
+                api_query.add_data_source(query, data_source, request.user)
             else:
                 # Data source have to be remove from the query
                 data_source = api_query.get_data_source_by_name_and_url_query(
-                    query, instance.name, url
+                    query, instance.name, url, request.user
                 )
-                api_query.remove_data_source(query, data_source)
+                api_query.remove_data_source(query, data_source, request.user)
 
             return HttpResponse()
         else:
