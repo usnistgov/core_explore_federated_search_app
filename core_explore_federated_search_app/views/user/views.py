@@ -1,12 +1,10 @@
 """ Federated user views
 """
 import json
-from urllib.parse import urljoin
 
 from django.urls import reverse
 
-from core_explore_common_app.utils.protocols.oauth2 import send_get_request
-from core_federated_search_app.components.instance import api as instance_api
+from core_explore_federated_search_app.utils.data import get_data_from_instance
 from core_main_app.commons import exceptions
 from core_main_app.utils.view_builders import data as data_view_builder
 from core_main_app.views.common.views import CommonView
@@ -21,19 +19,14 @@ class ViewData(CommonView):
         instance_name = request.GET["instance_name"]
 
         try:
-            # get instance information
-            instance = instance_api.get_by_name(instance_name)
-
-            # FIXME: reverse args
-            # Get detail view base url (to be completed with data id)
-            url = urljoin(
-                instance.endpoint,
+            # FIXME unify with REST APIs
+            data_url = "{0}?id={1}".format(
                 reverse("core_main_app_rest_data_get_by_id_with_template_info"),
+                str(data_id),
             )
-            url = "{0}?id={1}".format(url, str(data_id))
 
             # execute request
-            response = send_get_request(url, instance.access_token)
+            response = get_data_from_instance(instance_name, data_url, request.user)
             record = json.loads(response.text)
 
             # data to context

@@ -1,6 +1,5 @@
 """ REST views for the data API
 """
-from urllib.parse import urljoin
 
 from django.urls import reverse
 from rest_framework import status
@@ -9,16 +8,13 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-import core_federated_search_app.components.instance.api as instance_api
-from core_explore_common_app.utils.protocols.oauth2 import (
-    send_get_request as oauth2_request,
-)
 from core_explore_common_app.utils.result.result import (
     get_result_from_rest_data_response,
 )
 from core_explore_federated_search_app.rest.result.serializers import (
     ResultDetailSerializer,
 )
+from core_explore_federated_search_app.utils.data import get_data_from_instance
 
 
 @schema(None)
@@ -54,16 +50,13 @@ class ResultDetail(APIView):
             # Validation
             serializer.is_valid(True)
             # reverse url for accessing data
-            url_get_data = reverse(
+            data_url = reverse(
                 "core_main_app_rest_data_detail",
                 kwargs={"pk": serializer.validated_data["id"]},
             )
-            # requests the remote instance
-            instance = instance_api.get_by_name(
-                serializer.validated_data["instance_name"]
-            )
-            response = oauth2_request(
-                urljoin(instance.endpoint, url_get_data), instance.access_token
+
+            response = get_data_from_instance(
+                serializer.validated_data["instance_name"], data_url, request.user
             )
             # if got a response from data
             if response.status_code == 200:
