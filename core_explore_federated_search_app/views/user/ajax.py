@@ -3,6 +3,7 @@
 import json
 from urllib.parse import urljoin
 
+from django.http import HttpResponseForbidden
 from django.urls import reverse
 from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
@@ -14,6 +15,7 @@ from core_explore_common_app.components.abstract_query.models import (
     DataSource,
 )
 from core_explore_federated_search_app import settings
+from core_main_app.access_control.exceptions import AccessControlError
 
 
 def get_data_source_list_federated(request):
@@ -78,7 +80,9 @@ def get_data_source_list_federated(request):
             return HttpResponseBadRequest(
                 "Error during loading data sources from federated search."
             )
-    except Exception as e:
+    except AccessControlError:
+        return HttpResponseForbidden("Access Forbidden")
+    except Exception:
         return HttpResponseBadRequest(
             "Error during loading data sources from federated search."
         )
@@ -142,7 +146,9 @@ def update_data_source_list_federated(request):
             return HttpResponse()
         else:
             return HttpResponseBadRequest("Error during data source selection.")
-    except Exception as e:
+    except AccessControlError:
+        return HttpResponseForbidden("Access Forbidden")
+    except Exception:
         return HttpResponseBadRequest("Error during data source selection.")
 
 

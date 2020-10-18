@@ -11,10 +11,10 @@ from rest_framework.views import APIView
 from core_explore_common_app.utils.result.result import (
     get_result_from_rest_data_response,
 )
+from core_explore_federated_search_app.components.data.api import get_data_from_instance
 from core_explore_federated_search_app.rest.result.serializers import (
     ResultDetailSerializer,
 )
-from core_explore_federated_search_app.utils.data import get_data_from_instance
 
 
 @schema(None)

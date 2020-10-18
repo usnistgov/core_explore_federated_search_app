@@ -1,4 +1,4 @@
-""" Utilities to retrieve data from a given federated instance
+""" Data api
 """
 from urllib.parse import urljoin
 
