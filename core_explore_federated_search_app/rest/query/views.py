@@ -2,11 +2,11 @@
 """
 import pytz
 from django.urls import reverse
+from django.utils.timezone import activate
 from rest_framework import status
 from rest_framework.decorators import schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.utils.timezone import activate
 
 import core_main_app.components.data.api as data_api
 from core_explore_common_app.components.result.models import Result
@@ -15,7 +15,7 @@ from core_explore_common_app.utils.result import result as result_utils
 from core_explore_federated_search_app.rest.query.serializers import (
     QueryExecuteSerializer,
 )
-from core_main_app.components.template.api import get_all_by_hash
+from core_main_app.components.template import api as template_api
 from core_main_app.utils.pagination.rest_framework_paginator.pagination import (
     StandardResultsSetPagination,
 )
@@ -74,7 +74,9 @@ class QueryExecute(APIView):
             # update the content query with given templates
             if "templates" in serializer.validated_data:
                 _update_query_builder(
-                    query_builder, serializer.validated_data["templates"]
+                    query_builder,
+                    serializer.validated_data["templates"],
+                    request=request,
                 )
 
             # create a raw query
@@ -143,7 +145,7 @@ class QueryExecute(APIView):
             return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-def _update_query_builder(query_builder, templates):
+def _update_query_builder(query_builder, templates, request=None):
     """Update the query criteria with a list of templates.
 
     Args:
@@ -156,7 +158,11 @@ def _update_query_builder(query_builder, templates):
     if len(templates) > 0:
         template_id_list = []
         for template in templates:
-            template_id_list.extend(get_all_by_hash(template["hash"]).values_list("id"))
+            template_id_list.extend(
+                template_api.get_all_accessible_by_hash(
+                    template["hash"], request=request
+                ).values_list("id")
+            )
 
         # Even if the list is empty, we add it to the query
         # empty list means there is no equal template with the hash given
