@@ -44,7 +44,10 @@ class ViewData(CommonView):
             page_context = data_view_builder.build_page(data_object)
 
             return data_view_builder.render_page(
-                request, self.common_render, page_context
+                request,
+                self.common_render,
+                "core_main_app/user/data/detail.html",
+                page_context,
             )
         except exceptions.DoesNotExist as e:
             error_message = "The instance with the name: {0} does not exist".format(
