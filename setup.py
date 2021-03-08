@@ -23,7 +23,7 @@ chdir(normpath(join(abspath(__file__), pardir)))
 
 setup(
     name="core_explore_federated_search_app",
-    version="1.14.0",
+    version="1.15.0",
     description="Federation exploration functions for curator core project",
     long_description=long_desc,
     author="NIST IT Lab",
