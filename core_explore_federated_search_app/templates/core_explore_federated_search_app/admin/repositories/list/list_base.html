@@ -5,7 +5,7 @@
 {% block box_tools %}
 <div class="btn-group float-right">
 <a href="{% url 'admin:core_explore_federated_search_app_repositories_add'%}" class="btn btn-secondary add-repository-btn">
-    <i class="fa fa-plus-circle"></i> Add Repository
+    <i class="fas fa-plus-circle"></i> Add Repository
 </a>
 </div>
 {% endblock %}
@@ -29,13 +29,13 @@
                 <td id="{{ instance.id }}">
                     {% block box_actions %}
                         <span class="icon legend edit">
-                            <a class="btn btn-secondary" href="#"><i class="fa fa-edit"></i> Edit </a>
+                            <a class="btn btn-secondary" href="#"><i class="fas fa-edit"></i> Edit </a>
                         </span>
                         <span class="icon legend refresh">
-                            <a class="btn btn-secondary" href="#"><i class="fa fa-sync"></i> Refresh Token </a>
+                            <a class="btn btn-secondary" href="#"><i class="fas fa-sync"></i> Refresh Token </a>
                         </span>
                         <span class="icon legend delete">
-                            <button class="btn btn-danger"><i class="fa fa-trash"></i> Delete </button>
+                            <button class="btn btn-danger"><i class="fas fa-trash"></i> Delete </button>
                         </span>
                     {% endblock %}
                 </td>
