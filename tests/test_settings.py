@@ -1,5 +1,3 @@
-from core_main_app.utils.databases.mongoengine_database import Database
-
 SECRET_KEY = "fake-key"
 
 INSTALLED_APPS = [
@@ -18,6 +16,9 @@ INSTALLED_APPS = [
     "menu",
     # Local apps
     "core_main_app",
+    "core_explore_common_app",
+    "core_federated_search_app",
+    "core_explore_federated_search_app",
     "tests",
 ]
 
@@ -71,5 +72,4 @@ DATA_SORTING_FIELDS = ["+title"]
 
 CUSTOM_NAME = "Curator"
 
-database = Database(MOCK_DATABASE_HOST, MOCK_DATABASE_NAME)
-database.connect()
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

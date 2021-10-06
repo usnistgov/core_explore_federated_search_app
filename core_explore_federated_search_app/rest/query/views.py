@@ -1,8 +1,6 @@
 """ REST views for the query API
 """
-import pytz
 from django.urls import reverse
-from django.utils.timezone import activate
 from rest_framework import status
 from rest_framework.decorators import schema
 from rest_framework.response import Response
@@ -82,7 +80,9 @@ class QueryExecute(APIView):
             # create a raw query
             raw_query = query_builder.get_raw_query()
             # execute query
-            data_list = data_api.execute_query(raw_query, request.user, order_by_field)
+            data_list = data_api.execute_json_query(
+                raw_query, request.user, order_by_field
+            )
             # get paginator
             paginator = StandardResultsSetPagination()
             # get request page from list of results
@@ -103,13 +103,6 @@ class QueryExecute(APIView):
             # Template info
             template_info = dict()
 
-            # get the request session time zone
-            request_time_zone = (
-                request.META.get("HTTP_TZ") if request.META.get("HTTP_TZ") else "UTC"
-            )
-            # activate the timezone according to the request
-            activate(pytz.timezone(request_time_zone))
-
             for data in page:
                 # get data's template
                 template = data.template
@@ -128,9 +121,7 @@ class QueryExecute(APIView):
                         detail_url="{0}?id={1}&instance_name={2}".format(
                             url, data.id, instance_name
                         ),
-                        last_modification_date=pytz.utc.localize(
-                            data.last_modification_date
-                        ),
+                        last_modification_date=data.last_modification_date,
                         access_data_url="{0}?id={1}&instance_name={2}".format(
                             url_access_data, data.id, instance_name
                         ),
@@ -161,7 +152,7 @@ def _update_query_builder(query_builder, templates, request=None):
             template_id_list.extend(
                 template_api.get_all_accessible_by_hash(
                     template["hash"], request=request
-                ).values_list("id")
+                ).values_list("id", flat=True)
             )
 
         # Even if the list is empty, we add it to the query

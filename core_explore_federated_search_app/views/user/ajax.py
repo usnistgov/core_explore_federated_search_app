@@ -4,9 +4,9 @@ import json
 from urllib.parse import urljoin
 
 from django.http import HttpResponseForbidden
-from django.urls import reverse
 from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
+from django.urls import reverse
 
 import core_explore_common_app.components.query.api as api_query
 import core_federated_search_app.components.instance.api as instance_api
@@ -46,8 +46,8 @@ def get_data_source_list_federated(request):
                 # in order to know if they have to be checked
                 for data_source_item in query.data_sources:
                     if (
-                        data_source_item.name == instance_item.name
-                        and data_source_item.url_query == url_instance
+                        data_source_item["name"] == instance_item.name
+                        and data_source_item["url_query"] == url_instance
                     ):
                         checked = True
                         break
@@ -117,7 +117,7 @@ def update_data_source_list_federated(request):
             if to_be_added:
                 # Instance have to be added in the query as a datasource
                 authentication = Authentication(
-                    type="oauth2", params={"access_token": instance.access_token}
+                    auth_type="oauth2", params={"access_token": instance.access_token}
                 )
                 data_source = DataSource(
                     name=instance.name,
@@ -125,10 +125,10 @@ def update_data_source_list_federated(request):
                     authentication=authentication,
                     order_by_field=",".join(settings.DATA_SORTING_FIELDS),
                 )
-                data_source.query_options = {"instance_name": instance.name}
+                data_source["query_options"] = {"instance_name": instance.name}
 
                 if "core_linked_records_app" in settings.INSTALLED_APPS:
-                    data_source.capabilities = {
+                    data_source["capabilities"] = {
                         "url_pid": urljoin(
                             instance.endpoint,
                             reverse("core_linked_records_app_query_local"),

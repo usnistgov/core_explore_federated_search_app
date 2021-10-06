@@ -42,20 +42,23 @@ class AccessControlDataFixture(FixtureInterface):
 
         self.data_no_workspace = Data(
             template=self.template, title="Data 1", user_id="1"
-        ).save()
+        )
+        self.data_no_workspace.save()
         self.data_workspace_1 = Data(
             template=self.template,
             title="Data 3",
             user_id="1",
-            workspace=self.workspace_user1.id,
+            workspace=self.workspace_user1,
             dict_content=content,
-        ).save()
+        )
+        self.data_workspace_1.save()
         self.data_public_workspace = Data(
             template=self.template,
             title="DataDoubleTitle",
             user_id="2",
-            workspace=self.public_workspace.id,
-        ).save()
+            workspace=self.public_workspace,
+        )
+        self.data_public_workspace.save()
 
         self.data_collection = [
             self.data_no_workspace,
@@ -69,15 +72,15 @@ class AccessControlDataFixture(FixtureInterface):
         Returns:
 
         """
-        template = Template()
+        self.template = Template()
         xsd = (
             '<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">'
             '<xs:element name="tag"></xs:element></xs:schema>'
         )
-        template.content = xsd
-        template.hash = ""
-        template.filename = "filename"
-        self.template = template.save()
+        self.template.content = xsd
+        self.template.hash = ""
+        self.template.filename = "filename"
+        self.template.save()
 
     def generate_workspaces(self):
         """Generate the workspaces.
@@ -87,14 +90,16 @@ class AccessControlDataFixture(FixtureInterface):
         """
         self.workspace_user1 = Workspace(
             title="Workspace 1", owner="1", read_perm_id="1", write_perm_id="1"
-        ).save()
+        )
+        self.workspace_user1.save()
         self.public_workspace = Workspace(
             title="public",
             owner="1",
             read_perm_id="3",
             write_perm_id="3",
             is_public=True,
-        ).save()
+        )
+        self.public_workspace.save()
 
     def generate_queries(self):
         """Generate queries
@@ -103,4 +108,5 @@ class AccessControlDataFixture(FixtureInterface):
 
         """
 
-        self.query_user1 = Query(user_id="1").save()
+        self.query_user1 = Query(user_id="1")
+        self.query_user1.save()

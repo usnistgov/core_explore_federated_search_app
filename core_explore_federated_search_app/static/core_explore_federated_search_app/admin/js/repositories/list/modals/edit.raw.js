@@ -1,1 +1,1 @@
-var editRepositoryPostUrl = "{% url 'admin:core_explore_federated_search_app_repositories_edit' %}";
+var editRepositoryPostUrl = "{% url 'core-admin:core_explore_federated_search_app_repositories_edit' %}";

@@ -4,7 +4,7 @@
 
 {% block box_tools %}
 <div class="btn-group float-right">
-<a href="{% url 'admin:core_explore_federated_search_app_repositories_add'%}" class="btn btn-secondary add-repository-btn">
+<a href="{% url 'core-admin:core_explore_federated_search_app_repositories_add'%}" class="btn btn-secondary add-repository-btn">
     <i class="fas fa-plus-circle"></i> Add Repository
 </a>
 </div>
@@ -44,7 +44,7 @@
             <tr>
                 <td class="empty" colspan="4">
                     There are currently no other repositories registered. Please
-                    <a href="{% url 'admin:core_explore_federated_search_app_repositories_add'%}"
+                    <a href="{% url 'core-admin:core_explore_federated_search_app_repositories_add'%}"
                        class="add-repository-btn">add a new one</a>.
                 </td>
             </tr>
