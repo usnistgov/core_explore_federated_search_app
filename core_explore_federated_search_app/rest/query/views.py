@@ -143,7 +143,9 @@ class QueryExecute(APIView):
                         detail_url="{0}?id={1}&instance_name={2}".format(
                             url, data.id, instance_name
                         ),
-                        last_modification_date=data.last_modification_date,
+                        last_modification_date=data.last_modification_date.replace(
+                            tzinfo=pytz.UTC
+                        ),
                         access_data_url="{0}?id={1}&instance_name={2}".format(
                             url_access_data, data.id, instance_name
                         ),
