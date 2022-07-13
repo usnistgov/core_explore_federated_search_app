@@ -49,7 +49,7 @@ class ViewData(CommonView):
                 "core_main_app/user/data/detail.html",
                 page_context,
             )
-        except exceptions.DoesNotExist as e:
+        except exceptions.DoesNotExist:
             error_message = "The instance with the name: {0} does not exist".format(
                 instance_name
             )
