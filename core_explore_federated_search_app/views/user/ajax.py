@@ -8,6 +8,7 @@ from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 
+from core_main_app.access_control.exceptions import AccessControlError
 import core_explore_common_app.components.query.api as api_query
 import core_federated_search_app.components.instance.api as instance_api
 from core_explore_common_app.components.abstract_query.models import (
@@ -15,7 +16,6 @@ from core_explore_common_app.components.abstract_query.models import (
     DataSource,
 )
 from core_explore_federated_search_app import settings
-from core_main_app.access_control.exceptions import AccessControlError
 
 
 def get_data_source_list_federated(request):
@@ -76,15 +76,14 @@ def get_data_source_list_federated(request):
                 "core_explore_federated_search_app/user/data_sources/list-content.html",
                 context,
             )
-        else:
-            return HttpResponseBadRequest(
-                "Error during loading data sources from federated search."
-            )
+        return HttpResponseBadRequest(
+            "Error while loading data sources from federated search."
+        )
     except AccessControlError:
         return HttpResponseForbidden("Access Forbidden")
     except Exception:
         return HttpResponseBadRequest(
-            "Error during loading data sources from federated search."
+            "Error while loading data sources from federated search."
         )
 
 
@@ -104,48 +103,49 @@ def update_data_source_list_federated(request):
         to_be_added = json.loads(added) if added is not None else False
 
         # Get query from id
-        if id_query is not None:
-            query = api_query.get_by_id(id_query, request.user)
-
-            # Get instance from id
-            if id_instance is not None:
-                instance = instance_api.get_by_id(id_instance)
-
-                # Generate url from instance information
-                url = _get_url_with_federated_rest_extension(instance)
-
-            if to_be_added:
-                # Instance have to be added in the query as a datasource
-                authentication = Authentication(
-                    auth_type="oauth2", params={"access_token": instance.access_token}
-                )
-                data_source = DataSource(
-                    name=instance.name,
-                    url_query=url,
-                    authentication=authentication,
-                    order_by_field=",".join(settings.DATA_SORTING_FIELDS),
-                )
-                data_source["query_options"] = {"instance_name": instance.name}
-
-                if "core_linked_records_app" in settings.INSTALLED_APPS:
-                    data_source["capabilities"] = {
-                        "url_pid": urljoin(
-                            instance.endpoint,
-                            reverse("core_linked_records_app_query_local"),
-                        )
-                    }
-
-                api_query.add_data_source(query, data_source, request.user)
-            else:
-                # Data source have to be remove from the query
-                data_source = api_query.get_data_source_by_name_and_url_query(
-                    query, instance.name, url, request.user
-                )
-                api_query.remove_data_source(query, data_source, request.user)
-
-            return HttpResponse()
-        else:
+        if id_query is None:
             return HttpResponseBadRequest("Error during data source selection.")
+
+        query = api_query.get_by_id(id_query, request.user)
+
+        # Get instance from id
+        if id_instance is not None:
+            instance = instance_api.get_by_id(id_instance)
+
+            # Generate url from instance information
+            url = _get_url_with_federated_rest_extension(instance)
+
+        if to_be_added:
+            # Instance have to be added in the query as a datasource
+            authentication = Authentication(
+                auth_type="oauth2", params={"access_token": instance.access_token}
+            )
+            data_source = DataSource(
+                name=instance.name,
+                url_query=url,
+                authentication=authentication,
+                order_by_field=",".join(settings.DATA_SORTING_FIELDS),
+            )
+            data_source["query_options"] = {"instance_name": instance.name}
+
+            if "core_linked_records_app" in settings.INSTALLED_APPS:
+                data_source["capabilities"] = {
+                    "url_pid": urljoin(
+                        instance.endpoint,
+                        reverse("core_linked_records_app_query_local"),
+                    )
+                }
+
+            api_query.add_data_source(query, data_source, request.user)
+        else:
+            # Data source have to be remove from the query
+            data_source = api_query.get_data_source_by_name_and_url_query(
+                query, instance.name, url, request.user
+            )
+            api_query.remove_data_source(query, data_source, request.user)
+
+        return HttpResponse()
+
     except AccessControlError:
         return HttpResponseForbidden("Access Forbidden")
     except Exception:

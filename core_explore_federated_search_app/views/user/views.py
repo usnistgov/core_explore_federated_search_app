@@ -4,11 +4,11 @@ import json
 
 from django.urls import reverse
 
-from core_explore_federated_search_app.components.data.api import get_data_from_instance
 from core_main_app.access_control.exceptions import AccessControlError
 from core_main_app.commons import exceptions
 from core_main_app.utils.view_builders import data as data_view_builder
 from core_main_app.views.common.views import CommonView
+from core_explore_federated_search_app.components.data.api import get_data_from_instance
 
 
 class ViewData(CommonView):
@@ -50,15 +50,15 @@ class ViewData(CommonView):
                 page_context,
             )
         except exceptions.DoesNotExist:
-            error_message = "The instance with the name: {0} does not exist".format(
-                instance_name
+            error_message = (
+                f"The instance with the name: {instance_name} does not exist"
             )
             status_code = 404
         except AccessControlError:
             error_message = "Access Forbidden"
             status_code = 403
-        except Exception as e:
-            error_message = "An error occurred: {0}".format(str(e))
+        except Exception as exception:
+            error_message = f"An error occurred: {str(exception)}"
             status_code = 400
 
         return self.common_render(

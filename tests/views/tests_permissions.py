@@ -2,20 +2,24 @@
 """
 from django.test import RequestFactory
 
+from core_main_app.utils.integration_tests.integration_base_test_case import (
+    MongoIntegrationBaseTestCase,
+)
+from core_main_app.utils.tests_tools.MockUser import create_mock_user
 from core_explore_federated_search_app.views.user.ajax import (
     get_data_source_list_federated,
     update_data_source_list_federated,
 )
 from core_explore_federated_search_app.views.user.views import ViewData
-from core_main_app.utils.integration_tests.integration_base_test_case import (
-    MongoIntegrationBaseTestCase,
-)
-from core_main_app.utils.tests_tools.MockUser import create_mock_user
 from tests.fixtures.fixtures import AccessControlDataFixture
 
 
 class TestGetDataSourceListFederated(MongoIntegrationBaseTestCase):
+    """Test Get Data Source List Federated"""
+
     def setUp(self):
+        """setUp"""
+
         self.factory = RequestFactory()
         self.user1 = create_mock_user(user_id="1")
         self.anonymous = create_mock_user(user_id=None, is_anonymous=True)
@@ -23,6 +27,8 @@ class TestGetDataSourceListFederated(MongoIntegrationBaseTestCase):
         self.fixture.insert_data()
 
     def test_an_anonymous_user_can_not_access_data_sources_of_a_user_query(self):
+        """test_an_anonymous_user_can_not_access_data_sources_of_a_user_query"""
+
         request = self.factory.get("core_explore_federated_search_app_get_data_sources")
         request.user = self.anonymous
         request.GET = {"id_query": str(self.fixture.query_user1.id)}
@@ -31,7 +37,11 @@ class TestGetDataSourceListFederated(MongoIntegrationBaseTestCase):
 
 
 class TestUpdateDataSourceListFederated(MongoIntegrationBaseTestCase):
+    """Test Update Data Source List Federated"""
+
     def setUp(self):
+        """setUp"""
+
         self.factory = RequestFactory()
         self.user1 = create_mock_user(user_id="1")
         self.anonymous = create_mock_user(user_id=None, is_anonymous=True)
@@ -39,6 +49,8 @@ class TestUpdateDataSourceListFederated(MongoIntegrationBaseTestCase):
         self.fixture.insert_data()
 
     def test_an_anonymous_user_can_not_access_data_sources_of_a_user_query(self):
+        """test_an_anonymous_user_can_not_access_data_sources_of_a_user_query"""
+
         request = self.factory.get(
             "core_explore_federated_search_app_update_data_sources"
         )
@@ -49,7 +61,11 @@ class TestUpdateDataSourceListFederated(MongoIntegrationBaseTestCase):
 
 
 class TestViewData(MongoIntegrationBaseTestCase):
+    """Test View Data"""
+
     def setUp(self):
+        """setUp"""
+
         self.factory = RequestFactory()
         self.user1 = create_mock_user(user_id="1")
         self.anonymous = create_mock_user(user_id=None, is_anonymous=True)
@@ -57,6 +73,8 @@ class TestViewData(MongoIntegrationBaseTestCase):
         self.fixture.insert_data()
 
     def test_an_anonymous_user_can_not_access_a_data_that_is_not_in_a_workspace(self):
+        """test_an_anonymous_user_can_not_access_a_data_that_is_not_in_a_workspace"""
+
         request = self.factory.get("core_explore_federated_search_app_data_detail")
         request.user = self.anonymous
         request.GET = {
@@ -72,6 +90,8 @@ class TestViewData(MongoIntegrationBaseTestCase):
     def test_an_anonymous_user_can_not_access_a_data_that_is_in_a_private_workspace(
         self,
     ):
+        """test_an_anonymous_user_can_not_access_a_data_that_is_in_a_private_workspace"""
+
         request = self.factory.get("core_explore_federated_search_app_data_detail")
         request.user = self.anonymous
         request.GET = {
@@ -87,6 +107,7 @@ class TestViewData(MongoIntegrationBaseTestCase):
     def test_an_anonymous_user_can_not_access_a_data_that_is_in_a_public_workspace_and_access_setting_is_false(
         self,
     ):
+        """test_an_anonymous_user_can_not_access_a_data_that_is_in_a_public_workspace_and_access_setting_is_false"""
         request = self.factory.get("core_explore_federated_search_app_data_detail")
         request.user = self.anonymous
         request.GET = {

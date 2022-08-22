@@ -10,6 +10,11 @@ from rest_framework.decorators import schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from core_main_app.components.template import api as template_api
+from core_main_app.utils.pagination.rest_framework_paginator.pagination import (
+    StandardResultsSetPagination,
+)
+from core_main_app.utils.query.mongo.query_builder import QueryBuilder
 import core_main_app.components.data.api as data_api
 from core_explore_common_app.components.result.models import Result
 from core_explore_common_app.rest.result.serializers import ResultSerializer
@@ -18,11 +23,6 @@ from core_explore_federated_search_app import settings
 from core_explore_federated_search_app.rest.query.serializers import (
     QueryExecuteSerializer,
 )
-from core_main_app.components.template import api as template_api
-from core_main_app.utils.pagination.rest_framework_paginator.pagination import (
-    StandardResultsSetPagination,
-)
-from core_main_app.utils.query.mongo.query_builder import QueryBuilder
 
 logger = logging.getLogger(__name__)
 
