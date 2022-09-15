@@ -3,25 +3,31 @@
 from django.test.utils import override_settings
 from rest_framework import status
 
-import core_explore_federated_search_app.rest.result.views as result_views
 from core_main_app.utils.integration_tests.integration_base_test_case import (
     MongoIntegrationBaseTestCase,
 )
 from core_main_app.utils.tests_tools.MockUser import create_mock_user
 from core_main_app.utils.tests_tools.RequestMock import RequestMock
+import core_explore_federated_search_app.rest.result.views as result_views
 from tests.rest.result.fixtures.fixtures import ResultFixtures
 
 fixture_data = ResultFixtures()
 
 
 class TestGetResultDetail(MongoIntegrationBaseTestCase):
+    """Test Get Result Detail"""
+
     fixture = fixture_data
 
     def setUp(self):
-        super(TestGetResultDetail, self).setUp()
+        """setUp"""
+
+        super().setUp()
         self.data = None
 
     def test_get_raise_validation_error_400_if_parameters_are_invalid(self):
+        """test_get_raise_validation_error_400_if_parameters_are_invalid"""
+
         # Arrange
         user = create_mock_user("0")
         self.param = {}
@@ -36,6 +42,8 @@ class TestGetResultDetail(MongoIntegrationBaseTestCase):
 
     @override_settings(ROOT_URLCONF="core_main_app.urls")
     def test_get_returns_status_500_if_instance_is_not_available(self):
+        """test_get_returns_status_500_if_instance_is_not_available"""
+
         # Arrange
         user = create_mock_user("0")
         self.param = {}

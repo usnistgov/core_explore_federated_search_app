@@ -65,12 +65,11 @@ class ResultDetail(APIView):
                 # Returns the response
                 return Response(return_value, status=status.HTTP_200_OK)
             # if there no data we return the response given by the remote
-            else:
-                return Response(status=response.status_code)
+            return Response(status=response.status_code)
         except ValidationError as validation_exception:
             content = {"message": validation_exception.detail}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
+        except Exception as exception:
             # if something went wrong, return an internal server error
-            content = {"message": str(e)}
+            content = {"message": str(exception)}
             return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -33,5 +33,6 @@ class ResultFixtures(FixtureInterface):
             access_token="token",
             refresh_token="refresh",
             expires=datetime.datetime.now(),
-        ).save()
+        )
+        self.data_1.save()
         self.data_collection = [self.data_1]

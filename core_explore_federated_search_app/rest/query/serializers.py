@@ -6,6 +6,8 @@ from core_main_app.commons.serializers import BasicSerializer
 
 
 class QueryExecuteSerializer(BasicSerializer):
+    """Query Execute Serializer"""
+
     query = CharField(required=True)
     options = JSONField(required=False)
     templates = JSONField(required=False)
