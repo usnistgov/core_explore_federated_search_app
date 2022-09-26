@@ -11,7 +11,9 @@ from rest_framework.views import APIView
 from core_explore_common_app.utils.result.result import (
     get_result_from_rest_data_response,
 )
-from core_explore_federated_search_app.components.data.api import get_data_from_instance
+from core_explore_federated_search_app.components.data.api import (
+    get_data_from_instance,
+)
 from core_explore_federated_search_app.rest.result.serializers import (
     ResultDetailSerializer,
 )
@@ -56,7 +58,9 @@ class ResultDetail(APIView):
             )
 
             response = get_data_from_instance(
-                serializer.validated_data["instance_name"], data_url, request.user
+                serializer.validated_data["instance_name"],
+                data_url,
+                request.user,
             )
             # if got a response from data
             if response.status_code == 200:
@@ -72,4 +76,6 @@ class ResultDetail(APIView):
         except Exception as exception:
             # if something went wrong, return an internal server error
             content = {"message": str(exception)}
-            return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                content, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )

@@ -40,7 +40,9 @@ def get_data_source_list_federated(request):
                 checked = False
 
                 # Generate url from instance information
-                url_instance = _get_url_with_federated_rest_extension(instance_item)
+                url_instance = _get_url_with_federated_rest_extension(
+                    instance_item
+                )
 
                 # compare instance with existing data source in query
                 # in order to know if they have to be checked
@@ -104,7 +106,9 @@ def update_data_source_list_federated(request):
 
         # Get query from id
         if id_query is None:
-            return HttpResponseBadRequest("Error during data source selection.")
+            return HttpResponseBadRequest(
+                "Error during data source selection."
+            )
 
         query = api_query.get_by_id(id_query, request.user)
 
@@ -118,7 +122,8 @@ def update_data_source_list_federated(request):
         if to_be_added:
             # Instance have to be added in the query as a datasource
             authentication = Authentication(
-                auth_type="oauth2", params={"access_token": instance.access_token}
+                auth_type="oauth2",
+                params={"access_token": instance.access_token},
             )
             data_source = DataSource(
                 name=instance.name,

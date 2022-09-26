@@ -114,14 +114,18 @@ class QueryExecute(APIView):
             # and ultimately to UTC if the setting is not present.
             try:
                 user_timezone = pytz.timezone(
-                    request.META.get("HTTP_TZ", getattr(settings, "TIME_ZONE", "UTC"))
+                    request.META.get(
+                        "HTTP_TZ", getattr(settings, "TIME_ZONE", "UTC")
+                    )
                 )
             except Exception as exc:
                 logger.error(
                     f"Impossible to determine timezone from headers: {str(exc)}. Using "
                     f"settings timezone info."
                 )
-                user_timezone = pytz.timezone(getattr(settings, "TIME_ZONE", "UTC"))
+                user_timezone = pytz.timezone(
+                    getattr(settings, "TIME_ZONE", "UTC")
+                )
 
             timezone.activate(user_timezone)
 
@@ -157,7 +161,9 @@ class QueryExecute(APIView):
             return paginator.get_paginated_response(return_value.data)
         except Exception as api_exception:
             content = {"message": str(api_exception)}
-            return Response(content, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                content, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 def _update_query_builder(query_builder, templates, request=None):

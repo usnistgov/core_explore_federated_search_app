@@ -3,7 +3,9 @@
 import datetime
 
 from core_federated_search_app.components.instance.models import Instance
-from core_main_app.utils.integration_tests.fixture_interface import FixtureInterface
+from core_main_app.utils.integration_tests.fixture_interface import (
+    FixtureInterface,
+)
 
 
 class ResultFixtures(FixtureInterface):
