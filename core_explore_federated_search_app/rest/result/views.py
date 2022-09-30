@@ -48,7 +48,7 @@ class ResultDetail(APIView):
             # Build serializer
             serializer = ResultDetailSerializer(data=request.query_params)
             # Validation
-            serializer.is_valid(True)
+            serializer.is_valid(raise_exception=True)
             # reverse url for accessing data
             data_url = reverse(
                 "core_main_app_rest_data_detail",

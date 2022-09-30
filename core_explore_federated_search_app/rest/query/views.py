@@ -57,7 +57,7 @@ class QueryExecute(APIView):
             # serialization
             serializer = QueryExecuteSerializer(data=request.data)
             # validation
-            serializer.is_valid(True)
+            serializer.is_valid(raise_exception=True)
 
             # get the options
             options = None
