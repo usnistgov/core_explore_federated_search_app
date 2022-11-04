@@ -70,5 +70,9 @@ class ViewData(CommonView):
         return self.common_render(
             request,
             "core_main_app/common/commons/error.html",
-            context={"error": error_message, "status_code": status_code},
+            context={
+                "error": error_message,
+                "status_code": status_code,
+                "page_title": "Error",
+            },
         )
