@@ -1,6 +1,7 @@
 """ Access Control test for the data api
 """
 from django.contrib.auth.models import AnonymousUser
+from django.test import override_settings
 
 from core_main_app.access_control.exceptions import AccessControlError
 from core_main_app.utils.integration_tests.integration_base_test_case import (
@@ -19,6 +20,7 @@ class TestGetDataFromInstance(MongoIntegrationBaseTestCase):
 
     fixture = fixture_data
 
+    @override_settings(CAN_ANONYMOUS_ACCESS_PUBLIC_DOCUMENT=False)
     def test_get_data_from_instance_raises_access_control_error_for_anonymous_user(
         self,
     ):
