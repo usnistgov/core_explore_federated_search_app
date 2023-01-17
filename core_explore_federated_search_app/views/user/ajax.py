@@ -8,7 +8,6 @@ from django.http.response import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 
-from core_main_app.access_control.exceptions import AccessControlError
 import core_explore_common_app.components.query.api as api_query
 import core_federated_search_app.components.instance.api as instance_api
 from core_explore_common_app.components.abstract_query.models import (
@@ -16,6 +15,7 @@ from core_explore_common_app.components.abstract_query.models import (
     DataSource,
 )
 from core_explore_federated_search_app import settings
+from core_main_app.access_control.exceptions import AccessControlError
 
 
 def get_data_source_list_federated(request):

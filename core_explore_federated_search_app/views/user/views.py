@@ -4,13 +4,13 @@ import json
 
 from django.urls import reverse
 
+from core_explore_federated_search_app.components.data.api import (
+    get_data_from_instance,
+)
 from core_main_app.access_control.exceptions import AccessControlError
 from core_main_app.commons import exceptions
 from core_main_app.utils.view_builders import data as data_view_builder
 from core_main_app.views.common.views import CommonView
-from core_explore_federated_search_app.components.data.api import (
-    get_data_from_instance,
-)
 
 
 class ViewData(CommonView):

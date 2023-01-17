@@ -2,15 +2,15 @@
 """
 from django.test import RequestFactory, override_settings
 
-from core_main_app.utils.integration_tests.integration_base_test_case import (
-    MongoIntegrationBaseTestCase,
-)
-from core_main_app.utils.tests_tools.MockUser import create_mock_user
 from core_explore_federated_search_app.views.user.ajax import (
     get_data_source_list_federated,
     update_data_source_list_federated,
 )
 from core_explore_federated_search_app.views.user.views import ViewData
+from core_main_app.utils.integration_tests.integration_base_test_case import (
+    MongoIntegrationBaseTestCase,
+)
+from core_main_app.utils.tests_tools.MockUser import create_mock_user
 from tests.fixtures.fixtures import AccessControlDataFixture
 
 
