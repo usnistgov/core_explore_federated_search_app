@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import schema
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -30,6 +31,8 @@ logger = logging.getLogger(__name__)
 @schema(None)
 class QueryExecute(APIView):
     """Execute query endpoint"""
+
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         """Execute query

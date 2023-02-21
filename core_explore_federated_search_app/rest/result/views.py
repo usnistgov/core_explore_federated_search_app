@@ -5,6 +5,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.decorators import schema
 from rest_framework.exceptions import ValidationError
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -22,6 +23,8 @@ from core_explore_federated_search_app.rest.result.serializers import (
 @schema(None)
 class ResultDetail(APIView):
     """Result Detail API view"""
+
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request):
         """Access data, Return Result, Expect a data ID and a Remote name in parameters

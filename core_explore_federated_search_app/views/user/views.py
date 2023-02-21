@@ -2,7 +2,9 @@
 """
 import json
 
-from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
 
 from core_explore_federated_search_app.components.data.api import (
     get_data_from_instance,
@@ -13,6 +15,10 @@ from core_main_app.utils.view_builders import data as data_view_builder
 from core_main_app.views.common.views import CommonView
 
 
+@method_decorator(
+    login_required(login_url=reverse_lazy("core_main_app_login")),
+    name="dispatch",
+)
 class ViewData(CommonView):
     """View detail from remote data."""
 
