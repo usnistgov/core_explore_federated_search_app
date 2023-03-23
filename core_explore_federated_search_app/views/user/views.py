@@ -3,7 +3,7 @@
 import json
 
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 from django.utils.decorators import method_decorator
 
 from core_explore_federated_search_app.components.data.api import (
@@ -16,7 +16,7 @@ from core_main_app.views.common.views import CommonView
 
 
 @method_decorator(
-    login_required(login_url=reverse_lazy("core_main_app_login")),
+    login_required(),
     name="dispatch",
 )
 class ViewData(CommonView):
