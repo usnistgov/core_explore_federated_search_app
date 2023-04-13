@@ -135,9 +135,9 @@ def update_data_source_list_federated(request):
 
             if "core_linked_records_app" in settings.INSTALLED_APPS:
                 data_source["capabilities"] = {
-                    "url_pid": urljoin(
+                    "query_pid": urljoin(
                         instance.endpoint,
-                        reverse("core_linked_records_app_query_local"),
+                        reverse("core_linked_records_app_query_pid"),
                     )
                 }
 
