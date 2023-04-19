@@ -5,7 +5,7 @@ from rest_framework import status
 
 import core_explore_federated_search_app.rest.result.views as result_views
 from core_main_app.utils.integration_tests.integration_base_test_case import (
-    MongoIntegrationBaseTestCase,
+    IntegrationBaseTestCase,
 )
 from core_main_app.utils.tests_tools.MockUser import create_mock_user
 from core_main_app.utils.tests_tools.RequestMock import RequestMock
@@ -14,7 +14,7 @@ from tests.rest.result.fixtures.fixtures import ResultFixtures
 fixture_data = ResultFixtures()
 
 
-class TestGetResultDetail(MongoIntegrationBaseTestCase):
+class TestGetResultDetail(IntegrationBaseTestCase):
     """Test Get Result Detail"""
 
     fixture = fixture_data

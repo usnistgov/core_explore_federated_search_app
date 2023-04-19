@@ -8,13 +8,13 @@ from core_explore_federated_search_app.views.user.ajax import (
 )
 from core_explore_federated_search_app.views.user.views import ViewData
 from core_main_app.utils.integration_tests.integration_base_test_case import (
-    MongoIntegrationBaseTestCase,
+    IntegrationBaseTestCase,
 )
 from core_main_app.utils.tests_tools.MockUser import create_mock_user
 from tests.fixtures.fixtures import AccessControlDataFixture
 
 
-class TestGetDataSourceListFederated(MongoIntegrationBaseTestCase):
+class TestGetDataSourceListFederated(IntegrationBaseTestCase):
     """Test Get Data Source List Federated"""
 
     def setUp(self):
@@ -40,7 +40,7 @@ class TestGetDataSourceListFederated(MongoIntegrationBaseTestCase):
         self.assertEqual(response.status_code, 403)
 
 
-class TestUpdateDataSourceListFederated(MongoIntegrationBaseTestCase):
+class TestUpdateDataSourceListFederated(IntegrationBaseTestCase):
     """Test Update Data Source List Federated"""
 
     def setUp(self):
@@ -66,7 +66,7 @@ class TestUpdateDataSourceListFederated(MongoIntegrationBaseTestCase):
         self.assertEqual(response.status_code, 403)
 
 
-class TestViewData(MongoIntegrationBaseTestCase):
+class TestViewData(IntegrationBaseTestCase):
     """Test View Data"""
 
     def setUp(self):
