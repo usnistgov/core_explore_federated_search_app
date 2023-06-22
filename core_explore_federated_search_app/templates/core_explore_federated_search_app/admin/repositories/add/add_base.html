@@ -8,7 +8,7 @@
 
     {% if data.error %}
       <div class="alert alert-danger alert-dismissable">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <a href="#" {% if BOOTSTRAP_VERSION == "4.6.2" %}class="close" data-dismiss="alert"{% elif BOOTSTRAP_VERSION == "5.1.3" %}class="btn-close" data-bs-dismiss="alert"{% endif %} aria-label="close">&times;</a>
         <strong>{{ data.error }}</strong>
       </div>
       <br/>
@@ -16,7 +16,7 @@
 
     {% if data.success %}
       <div class="alert alert-success alert-dismissable">
-        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <a href="#" {% if BOOTSTRAP_VERSION == "4.6.2" %}class="close" data-dismiss="alert"{% elif BOOTSTRAP_VERSION == "5.1.3" %}class="btn-close" data-bs-dismiss="alert"{% endif %} aria-label="close">&times;</a>
         <strong>{{ data.success }}</strong>
       </div>
       <br/>
@@ -26,7 +26,7 @@
       {% csrf_token %}
       {{ data.repository_form }}
       <br/>
-      <input type="submit" class="btn btn-secondary float-right" value="Add Repository"/>
+      <input type="submit" class="btn btn-secondary {% if BOOTSTRAP_VERSION == "4.6.2" %}float-right{% elif BOOTSTRAP_VERSION == "5.1.3"%}float-end{% endif %}" value="Add Repository"/>
     </form>
 
   </div>
