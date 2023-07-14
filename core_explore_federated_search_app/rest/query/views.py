@@ -4,7 +4,6 @@ import logging
 
 import pytz
 from django.urls import reverse
-from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import schema
 from rest_framework.permissions import IsAuthenticated
@@ -15,7 +14,6 @@ import core_main_app.components.data.api as data_api
 from core_explore_common_app.components.result.models import Result
 from core_explore_common_app.rest.result.serializers import ResultSerializer
 from core_explore_common_app.utils.result import result as result_utils
-from core_explore_federated_search_app import settings
 from core_explore_federated_search_app.rest.query.serializers import (
     QueryExecuteSerializer,
 )
@@ -112,25 +110,6 @@ class QueryExecute(APIView):
 
             # Template info
             template_info = dict()
-
-            # Change timezone depending on the request arguments. Default to settings
-            # and ultimately to UTC if the setting is not present.
-            try:
-                user_timezone = pytz.timezone(
-                    request.META.get(
-                        "HTTP_TZ", getattr(settings, "TIME_ZONE", "UTC")
-                    )
-                )
-            except Exception as exc:
-                logger.error(
-                    f"Impossible to determine timezone from headers: {str(exc)}. Using "
-                    f"settings timezone info."
-                )
-                user_timezone = pytz.timezone(
-                    getattr(settings, "TIME_ZONE", "UTC")
-                )
-
-            timezone.activate(user_timezone)
 
             for data in page:
                 # get data's template
