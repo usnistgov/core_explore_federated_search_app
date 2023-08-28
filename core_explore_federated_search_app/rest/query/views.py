@@ -123,7 +123,7 @@ class QueryExecute(APIView):
                 results.append(
                     Result(
                         title=data.title,
-                        xml_content=data.xml_content,
+                        xml_content=data.content,
                         template_info=template_info[template],
                         permission_url=None,
                         detail_url="{0}?id={1}&instance_name={2}".format(
