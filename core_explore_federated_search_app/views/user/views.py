@@ -29,12 +29,10 @@ class ViewData(CommonView):
         instance_name = request.GET["instance_name"]
 
         try:
-            # FIXME unify with REST APIs
-            data_url = "{0}?id={1}".format(
+            data_url = "{0}?template_info=true".format(
                 reverse(
-                    "core_main_app_rest_data_get_by_id_with_template_info"
+                    "core_main_app_rest_data_detail", args=(str(data_id),)
                 ),
-                str(data_id),
             )
 
             # execute request
@@ -55,7 +53,7 @@ class ViewData(CommonView):
                 "title": record["title"],
                 "content": record[content_key],
                 "template": {
-                    "hash": record["template"].get("_hash", ""),
+                    "hash": record["template"].get("hash", ""),
                     "format": record["template"].get("format", ""),
                     "display_name": record["template"].get(
                         "_display_name", ""
