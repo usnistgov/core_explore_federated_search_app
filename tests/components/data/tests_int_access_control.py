@@ -10,7 +10,7 @@ from core_main_app.access_control.exceptions import AccessControlError
 from core_main_app.utils.integration_tests.integration_base_test_case import (
     IntegrationBaseTestCase,
 )
-from tests.fixtures.fixtures import AccessControlDataFixture
+from tests.fixtures import AccessControlDataFixture
 
 fixture_data = AccessControlDataFixture()
 

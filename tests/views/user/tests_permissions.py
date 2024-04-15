@@ -1,7 +1,7 @@
 """ Permission tests on views
 """
 from django.test import RequestFactory, override_settings
-from tests.fixtures.fixtures import AccessControlDataFixture
+from tests.fixtures import AccessControlDataFixture
 
 from core_explore_federated_search_app.views.user.ajax import (
     get_data_source_list_federated,
@@ -115,11 +115,11 @@ class TestViewData(IntegrationBaseTestCase):
         request.user = self.anonymous
         request.GET = {
             "instance_name": "Local",
-            "id": str(self.fixture.data_workspace_1.id),
+            "id": str(self.fixture.data_private_workspace.id),
         }
         response = ViewData.as_view()(request)
         self.assertTrue(
-            self.fixture.data_workspace_1.title
+            self.fixture.data_private_workspace.title
             not in response.content.decode()
         )
         self.assertEqual(response.status_code, 302)

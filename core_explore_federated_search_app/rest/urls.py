@@ -9,7 +9,7 @@ from core_explore_federated_search_app.rest.result import views as result_views
 urlpatterns = [
     re_path(
         r"^execute-query",
-        query_views.QueryExecute.as_view(),
+        query_views.ExecuteFederatedQueryView.as_view(),
         name="core_explore_federated_search_app_rest_execute_query",
     ),
     re_path(

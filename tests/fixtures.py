@@ -16,8 +16,8 @@ class AccessControlDataFixture(FixtureInterface):
     workspace_user1 = None
     public_workspace = None
     data_collection = None
-    data_workspace_1 = None
     data_no_workspace = None
+    data_private_workspace = None
     data_public_workspace = None
     query_user1 = None
 
@@ -42,29 +42,43 @@ class AccessControlDataFixture(FixtureInterface):
 
         content = {"root": {"element": "value2"}}
 
+        common_data_items = {
+            "template": self.template,
+        }
+
+        data_kwargs_no_workspace = {
+            "title": "Data private no workspace",
+            "user_id": "3",
+        }
         self.data_no_workspace = Data(
-            template=self.template, title="Data 1", user_id="1"
+            **common_data_items, **data_kwargs_no_workspace
         )
-        self.data_no_workspace.save()
-        self.data_workspace_1 = Data(
-            template=self.template,
-            title="Data 3",
-            user_id="1",
-            workspace=self.workspace_user1,
-            dict_content=content,
+        self.data_no_workspace.save_object()
+
+        data_kwargs_private_workspace = {
+            "title": "Data private with workspace",
+            "user_id": "1",
+            "workspace": self.workspace_user1,
+            "dict_content": content,
+        }
+        self.data_private_workspace = Data(
+            **common_data_items, **data_kwargs_private_workspace
         )
-        self.data_workspace_1.save()
+        self.data_private_workspace.save_object()
+
+        data_kwargs_public_workspace = {
+            "title": "Data public",
+            "user_id": "2",
+            "workspace": self.public_workspace,
+        }
         self.data_public_workspace = Data(
-            template=self.template,
-            title="DataDoubleTitle",
-            user_id="2",
-            workspace=self.public_workspace,
+            **common_data_items, **data_kwargs_public_workspace
         )
-        self.data_public_workspace.save()
+        self.data_public_workspace.save_object()
 
         self.data_collection = [
             self.data_no_workspace,
-            self.data_workspace_1,
+            self.data_private_workspace,
             self.data_public_workspace,
         ]
 
@@ -80,7 +94,7 @@ class AccessControlDataFixture(FixtureInterface):
             '<xs:element name="tag"></xs:element></xs:schema>'
         )
         self.template.content = xsd
-        self.template.hash = ""
+        self.template.hash = "mock_hash"
         self.template.filename = "filename.xsd"
         self.template.save()
 
@@ -109,6 +123,5 @@ class AccessControlDataFixture(FixtureInterface):
         Returns:
 
         """
-
         self.query_user1 = Query(user_id="1")
         self.query_user1.save()

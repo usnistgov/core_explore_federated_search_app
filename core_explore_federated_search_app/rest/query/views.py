@@ -1,172 +1,128 @@
 """ REST views for the query API
 """
+
+import json
 import logging
 
 import pytz
 from django.urls import reverse
-from rest_framework import status
 from rest_framework.decorators import schema
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
-import core_main_app.components.data.api as data_api
 from core_explore_common_app.components.result.models import Result
 from core_explore_common_app.rest.result.serializers import ResultSerializer
 from core_explore_common_app.utils.result import result as result_utils
-from core_explore_federated_search_app.rest.query.serializers import (
-    QueryExecuteSerializer,
+from core_main_app.rest.data.serializers import DataWithTemplateInfoSerializer
+from core_main_app.rest.data.abstract_views import (
+    AbstractExecuteLocalQueryView,
 )
-from core_main_app.components.template import api as template_api
+from core_main_app.settings import MAX_DOCUMENT_LIST
+from core_main_app.utils.boolean import to_bool
+from core_main_app.utils.object import parse_property
 from core_main_app.utils.pagination.rest_framework_paginator.pagination import (
     StandardResultsSetPagination,
 )
-from core_main_app.utils.query.mongo.query_builder import QueryBuilder
+from core_main_app.components.template import api as template_api
+from core_main_app.utils.xml import get_content_by_xpath
 
 logger = logging.getLogger(__name__)
 
 
 @schema(None)
-class QueryExecute(APIView):
-    """Execute query endpoint"""
+class ExecuteFederatedQueryView(AbstractExecuteLocalQueryView):
+    """View called when executing a federated query."""
 
-    permission_classes = (IsAuthenticated,)
+    serializer = DataWithTemplateInfoSerializer
 
-    def post(self, request):
-        """Execute query
-
-        Parameters:
-
-            {
-                "query" : "value",
-                "options" : "number",
-                "templates" : "[]"
-            }
+    def build_response(self, data_list):
+        """Build the response.
 
         Args:
-
-            request: HTTP request
+            data_list: List of data
 
         Returns:
-
-            - code: 200
-              content: Paginated list of Data
-            - code: 500
-              content: Internal server error
+            The response paginated
         """
-        try:
-            # serialization
-            serializer = QueryExecuteSerializer(data=request.data)
-            # validation
-            serializer.is_valid(raise_exception=True)
+        xpath = self.request.data.get("xpath", None)
+        namespaces = self.request.data.get("namespaces", None)
+        options = json.loads(self.request.data.get("options", "{}"))
 
-            # get the options
-            options = None
-            if "options" in serializer.validated_data:
-                options = serializer.validated_data["options"]
+        if "all" in self.request.data and to_bool(self.request.data["all"]):
+            if data_list.count() > MAX_DOCUMENT_LIST:
+                content = {"message": "Number of documents is over the limit."}
+                return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
-            # get the query order by field
-            order_by_field = (
-                request.data["order_by_field"].split(",")
-                if "order_by_field" in request.data
-                else ""
-            )
-
-            # init a QueryBuilder with the query
-            query_builder = QueryBuilder(
-                serializer.validated_data["query"], "dict_content"
-            )
-
-            # update the content query with given templates
-            if "templates" in serializer.validated_data:
-                _update_query_builder(
-                    query_builder,
-                    serializer.validated_data["templates"],
-                    request=request,
-                )
-
-            # create a raw query
-            raw_query = query_builder.get_raw_query()
-            # execute query
-            data_list = data_api.execute_json_query(
-                raw_query, request.user, order_by_field
-            )
-            # get paginator
+            page = data_list
+            response_fn = Response
+        else:
+            # Get paginator and requested page from list of results
             paginator = StandardResultsSetPagination()
-            # get request page from list of results
-            page = paginator.paginate_queryset(data_list, request)
+            page = paginator.paginate_queryset(data_list, self.request)
+            response_fn = paginator.get_paginated_response
 
-            # Serialize object
-            results = []
-            url = reverse("core_explore_federated_search_app_data_detail")
-            url_access_data = reverse(
-                "core_explore_federated_search_app_rest_get_result_from_data_id"
-            )
-
-            instance_name = ""
-            if options is not None:
-                if "instance_name" in options:
-                    instance_name = options["instance_name"]
-
-            # Template info
-            template_info = dict()
-
-            for data in page:
-                # get data's template
-                template = data.template
-                # get and store data's template information
-                if template not in template_info:
-                    template_info[template] = result_utils.get_template_info(
-                        template, include_template_id=False
-                    )
-
-                results.append(
-                    Result(
-                        title=data.title,
-                        content=data.content,
-                        template_info=template_info[template],
-                        permission_url=None,
-                        detail_url="{0}?id={1}&instance_name={2}".format(
-                            url, data.id, instance_name
-                        ),
-                        last_modification_date=data.last_modification_date.replace(
-                            tzinfo=pytz.UTC
-                        ),
-                        access_data_url="{0}?id={1}&instance_name={2}".format(
-                            url_access_data, data.id, instance_name
-                        ),
-                    )
+        # Select values at xpath if provided
+        if xpath:
+            for data_object in page:
+                data_object.xml_content = get_content_by_xpath(
+                    data_object.xml_content, xpath, namespaces=namespaces
                 )
 
-            return_value = ResultSerializer(results, many=True)
+        results = []
+        template_info = {}
 
-            return paginator.get_paginated_response(return_value.data)
-        except Exception as api_exception:
-            content = {"message": str(api_exception)}
-            return Response(
-                content, status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        instance_name = options.get("instance_name", "")
+        detail_base_url = reverse(
+            "core_explore_federated_search_app_data_detail"
+        )
+        access_data_base_url = reverse(
+            "core_explore_federated_search_app_rest_get_result_from_data_id"
+        )
+
+        for data in page:
+            template = data.template
+
+            if template not in template_info:
+                template_info[template] = result_utils.get_template_info(
+                    template, include_template_id=False
+                )
+
+            data_query_string = f"id={data.id}&instance_name={instance_name}"
+            results.append(
+                Result(
+                    title=data.title,
+                    content=data.content,
+                    template_info=template_info[template],
+                    permission_url=None,
+                    detail_url=f"{detail_base_url}?{data_query_string}",
+                    last_modification_date=data.last_modification_date.replace(
+                        tzinfo=pytz.UTC
+                    ),
+                    access_data_url=f"{access_data_base_url}?{data_query_string}",
+                )
             )
 
+        return response_fn(ResultSerializer(results, many=True).data)
 
-def _update_query_builder(query_builder, templates, request=None):
-    """Update the query criteria with a list of templates.
+    def build_template_id_list(self, template_list):
+        """Retrieve list of template ID from a given list of template hash.
 
-    Args:
-        query_builder:
-        templates:
+        Args:
+            template_list: list - List of template hash.
 
-    Returns:
-
-    """
-    if len(templates) > 0:
+        Returns:
+            list - List of template IDs matching the input template hashes.
+        """
         template_id_list = []
-        for template in templates:
-            template_id_list.extend(
-                template_api.get_all_accessible_by_hash(
-                    template["hash"], request=request
-                ).values_list("id", flat=True)
-            )
 
-        # Even if the list is empty, we add it to the query
-        # empty list means there is no equal template with the hash given
-        query_builder.add_list_criteria("template", template_id_list)
+        for template in template_list:
+            template_hash = parse_property(template, "hash")
+
+            template_id_list += [
+                template_by_hash.id
+                for template_by_hash in template_api.get_all_accessible_by_hash(
+                    template_hash, request=self.request
+                )
+            ]
+
+        return template_id_list

@@ -76,7 +76,7 @@ class ResultDetail(APIView):
         except ValidationError as validation_exception:
             content = {"message": validation_exception.detail}
             return Response(content, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as exception:
+        except Exception as exception:  # noqa, pylint: disable=broad-except
             # if something went wrong, return an internal server error
             content = {"message": str(exception)}
             return Response(
