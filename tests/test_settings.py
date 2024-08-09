@@ -14,7 +14,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # Extra apps
     "oauth2_provider",
-    "defender",
     "menu",
     "django_celery_beat",
     # Local apps
