@@ -1,5 +1,6 @@
 """ Federated user views
 """
+
 import json
 
 from django.contrib.auth.decorators import login_required

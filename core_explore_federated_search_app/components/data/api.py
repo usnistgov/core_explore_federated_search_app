@@ -1,5 +1,6 @@
 """ Data api
 """
+
 from urllib.parse import urljoin
 
 import core_federated_search_app.components.instance.api as instance_api

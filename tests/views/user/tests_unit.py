@@ -1,5 +1,6 @@
 """ Unit tests for user views
 """
+
 from unittest.mock import patch, MagicMock
 
 from django.test import SimpleTestCase, RequestFactory

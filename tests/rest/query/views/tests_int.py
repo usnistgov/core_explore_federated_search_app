@@ -1,5 +1,6 @@
 """ Integration tests for `core_federated_search.rest.query.views` package.
 """
+
 from django.contrib.auth.models import User
 from django.test import override_settings
 from rest_framework import status

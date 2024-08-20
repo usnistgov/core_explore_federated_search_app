@@ -1,5 +1,6 @@
 """Integration tests for Result rest api
 """
+
 from django.test.utils import override_settings
 from rest_framework import status
 

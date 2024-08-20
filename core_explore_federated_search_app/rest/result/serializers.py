@@ -1,5 +1,6 @@
 """ Result Serializers
 """
+
 from rest_framework.serializers import CharField
 
 from core_main_app.commons.serializers import BasicSerializer

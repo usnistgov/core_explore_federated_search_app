@@ -1,6 +1,7 @@
 """ conf
 
 """
+
 # -*- coding: utf-8 -*-
 #
 # Django app documentation build configuration file

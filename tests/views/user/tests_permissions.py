@@ -1,5 +1,6 @@
 """ Permission tests on views
 """
+
 from django.test import RequestFactory, override_settings
 from tests.fixtures import AccessControlDataFixture
 

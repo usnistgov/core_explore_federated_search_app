@@ -1,5 +1,6 @@
 """ Unit tests for `core_explore_federated_search_app.rest.query.views` package.
 """
+
 from unittest import TestCase
 from unittest.mock import patch, MagicMock
 
