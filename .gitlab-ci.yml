@@ -38,13 +38,13 @@ before_script:
       diff-cover
       twine
       wheel
-      xmlsec==1.3.14 
+      xmlsec==1.3.14
   - pip install -r requirements.txt
   - find . -name 'requirements.*.txt'
-      -exec pip install --pre 
+      -exec pip install --pre
       --index-url ${CI_API_V4_URL}/groups/${CI_PROJECT_NAMESPACE_ID}/-/packages/pypi/simple/
       -r {} \;
-  - MAIN_APP_VERSION="$(pip freeze | grep core_main_app | cut -d '=' -f 3)"
+  - MAIN_APP_VERSION="$(pip freeze | grep -E 'core[-_]main[-_]app' | cut -d '=' -f 3)"
   - pip install --pre
     --index-url ${CI_API_V4_URL}/groups/${CI_PROJECT_NAMESPACE_ID}/-/packages/pypi/simple/
     --force-reinstall -U "core_main_app[develop]==${MAIN_APP_VERSION}"
