@@ -1,5 +1,4 @@
-""" Unit tests for user views
-"""
+"""Unit tests for user views"""
 
 from unittest.mock import patch, MagicMock
 

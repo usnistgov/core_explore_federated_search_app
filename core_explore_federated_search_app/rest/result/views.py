@@ -1,5 +1,4 @@
-""" REST views for the data API
-"""
+"""REST views for the data API"""
 
 from django.urls import reverse
 from rest_framework import status

@@ -1,5 +1,4 @@
-""" Access Control test for the data api
-"""
+"""Access Control test for the data api"""
 
 from django.contrib.auth.models import AnonymousUser
 from django.test import override_settings

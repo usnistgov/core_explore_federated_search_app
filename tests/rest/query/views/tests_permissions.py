@@ -1,4 +1,4 @@
-""" Authentication tests for `core_explore_federated_search_app.rest.query.views`
+"""Authentication tests for `core_explore_federated_search_app.rest.query.views`
 package.
 """
 

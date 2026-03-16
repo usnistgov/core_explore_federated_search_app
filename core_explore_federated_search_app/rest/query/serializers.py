@@ -1,5 +1,4 @@
-""" Result Serializers
-"""
+"""Result Serializers"""
 
 from rest_framework.serializers import JSONField, CharField
 

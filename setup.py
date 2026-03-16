@@ -1,5 +1,4 @@
-""" Setup for core explore federated search app
-"""
+"""Setup for core explore federated search app"""
 
 from os import chdir, pardir
 from os.path import join, exists, dirname, normpath, abspath

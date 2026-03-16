@@ -1,5 +1,4 @@
-""" Data api
-"""
+"""Data api"""
 
 from urllib.parse import urljoin
 

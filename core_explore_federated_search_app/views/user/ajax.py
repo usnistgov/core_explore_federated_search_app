@@ -1,5 +1,4 @@
-""" Ajax User core explore federated
-"""
+"""Ajax User core explore federated"""
 
 import json
 from urllib.parse import urljoin

@@ -1,5 +1,4 @@
-""" Federated user views
-"""
+"""Federated user views"""
 
 import json
 
